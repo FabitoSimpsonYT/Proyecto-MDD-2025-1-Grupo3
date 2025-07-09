@@ -30,3 +30,21 @@ export async function isAdmin(req, res, next) {
     res.status(500).json({ message: "Error interno del servidor", error });
   }
 }
+export async function populateUser(req, res, next) {
+  try {
+    if (!req.user?.email) return next();
+    
+    const userRepository = AppDataSource.getRepository(User);
+    const user = await userRepository.findOneBy({ email: req.user.email });
+    
+    if (user) {
+      req.user.id = user.id;
+      req.user.role = user.role;
+    }
+    
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Error al cargar usuario" });
+  }
+}
+
