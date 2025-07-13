@@ -49,6 +49,10 @@ export const soliEspaciosEntity = new EntitySchema({
             type: "time",
             nullable: false,
         },
+        observaciones: {
+            type: String,
+            default: "Sin observaciones",
+        },
         createdAt: {
             type: "timestamp",
             default: () => "CURRENT_TIMESTAMP",
