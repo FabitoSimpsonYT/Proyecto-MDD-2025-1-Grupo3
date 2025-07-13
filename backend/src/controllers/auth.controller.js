@@ -16,7 +16,7 @@ export async function register(req, res) {
   try {
     // Obtener el repositorio de usuarios y validar los datos de entrada
     const userRepository = AppDataSource.getRepository(User);
-    const { username, rut, email, password } = req.body;
+    const { username, rut, email, password} = req.body;
     const { error } = registerValidation.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
 
@@ -38,7 +38,6 @@ export async function register(req, res) {
       return res
         .status(409)
         .json({ message: "Nombre de usuario ya registrado." });
-
     // Crear un nuevo usuario y guardar en la base de datos
     const newUser = userRepository.create({
       username,
@@ -50,7 +49,6 @@ export async function register(req, res) {
 
     // Excluir la contraseña del objeto de respuesta
     const { contraseña, ...dataUser } = newUser;
-
     res
       .status(201)
       .json({ message: "Usuario registrado exitosamente!", data: dataUser });
