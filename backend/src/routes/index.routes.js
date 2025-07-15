@@ -9,6 +9,8 @@ import commentRoutes from "./comment.routes.js";
 import attendanceRoutes from "./attendance.routes.js";
 import sugerenciaRoutes from "./sugerencias.routes.js";
 import visitanterouters from "./visitante.routes.js";
+import cuentasRoutes from "./cuentas.routes.js";
+import pagosRoutes from "./pagos.routes.js"; 
 
 const router = new Router();
 
@@ -21,6 +23,7 @@ router.use("/comments", commentRoutes);
 router.use("/attendance", attendanceRoutes);
 router.use("/sugerencias", sugerenciaRoutes);
 router.use("/visitante",visitanterouters);
-
+router.use("/cuentas", cuentasRoutes);
+router.use("/pagos", pagosRoutes); 
 
 export default router;
