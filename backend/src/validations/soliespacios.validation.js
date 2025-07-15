@@ -2,14 +2,6 @@
 import Joi from "joi";
 
 export const createValidation = Joi.object({
-    nombreSolicitante: Joi.string()
-    .required()
-    .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/)
-    .messages({
-        "string.empty": "El nombre del solicitante no puede estar vacío",
-        "string.base": "El nombre del solicitante debe ser de tipo string",
-        "string.pattern.base": "El nombre del solicitante solo puede contener letras, espacios, tildes y ñ",
-    }),
     idEspacioSol: Joi.number()
         .required()
         .messages({
@@ -53,7 +45,7 @@ export const createValidation = Joi.object({
             "string.base": "La hora de fin debe ser de tipo string",
             "string.pattern.base": "La hora de fin debe tener el formato HH:MM (24 horas)",
         }),
-}).custom((value, helpers) => {
+}).unknown(true).custom((value, helpers) => {
     if (value.fechaFin < value.fechaInicio) {
         return helpers.message("La fecha de fin debe ser mayor o igual a la fecha de inicio");
     }
@@ -143,8 +135,8 @@ export const updateValidation = Joi.object({
         }
     }
     return value;
-}).unknown(false).messages({
-    "object.unknown": "No se permiten campos adicionales."
+}).messages({
+    "object.unknown": "No se permiten campos adicionales, excepto 'nombreSolicitante' (que será ignorado si se envía)."
 });
 
 
@@ -157,9 +149,15 @@ export const updateResValidation = Joi.object({
             "any.only": "El estado solo puede ser '2' (Aprobado) o '3' (Rechazado)",
             "string.empty": "El estado no puede estar vacío",
             "any.required": "El estado es obligatorio"
+        }),
+    observaciones: Joi.string()
+        .optional()
+        .allow("")
+        .messages({
+            "string.base": "Las observaciones deben ser un texto"
         })
 }).unknown(false).messages({
-    "object.unknown": "No se permiten campos adicionales. Solo se puede actualizar el campo 'estado'.",
+    "object.unknown": "No se permiten campos adicionales. Solo se puede actualizar 'estado' y opcionalmente 'observaciones'.",
 });
 
 
