@@ -36,7 +36,7 @@ export async function getOneSoli(req, res){
     try {
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
         const { id } = req.params;
-        // Buscar por idSolicitud, no por id
+        
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id } });
 
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada" });
@@ -53,7 +53,7 @@ export async function getOneSoliUser(req, res){
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
         const { id } = req.params;
         const rutSolicitante = req.user.rut;
-        // Buscar por idSolicitud y rutSolicitante
+        
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id, rutSolicitante } });
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada o no pertenece al usuario." });
         res.status(200).json({ message: "Solicitud encontrada.", data: soliespacio });
@@ -70,17 +70,17 @@ export async function createSoli(req, res) {
         const { descripcion, fechaInicio, fechaFin, horaInicio, horaFin } = req.body;
         const idEspacioSol = req.body.idEspacioSol;
         const rutSolicitante = req.user.rut;
-        // Asegura que el nombre venga del usuario autenticado
+        
         const nombreSolicitante = req.user.nombre || req.user.nombreSolicitante || req.user.fullName || req.user.username;
 
-        // Validar que el espacio exista
+        
         const espacioRepository = AppDataSource.getRepository("EspacioComun");
         const espacio = await espacioRepository.findOne({ where: { id: idEspacioSol } });
         if (!espacio) {
             return res.status(404).json({ message: "El espacio solicitado no existe." });
         }
 
-        // Verificar solapamiento de horarios en el mismo espacio y fecha SOLO si la solicitud existente está en estado '2'
+        
         const solapamiento = await soliEspaciosRepository.createQueryBuilder("soli")
             .where("soli.idEspacioSol = :idEspacioSol", { idEspacioSol })
             .andWhere("soli.fechaInicio = :fechaInicio", { fechaInicio })
@@ -129,7 +129,7 @@ export async function updateSoli(req, res) {
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
         const { id } = req.params;
         const { idEspacioSol, descripcion, fechaInicio, fechaFin, horaInicio, horaFin } = req.body;
-        // Buscar por idSolicitud, no por id
+        
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id } });
 
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada" });
@@ -159,12 +159,12 @@ export async function updateSoliRes(req, res) {
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
         const { id } = req.params;
         const { estado, observaciones } = req.body;
-        // Buscar por idSolicitud, no por id
+        
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id } });
 
         if (!soliespacio) return res.status(404).json({ message: "Espacio no encontrado." });
 
-        // Si el estado es '2' (Aprobar), verificar que no haya otra solicitud aprobada con horario solapado
+        
         if (estado === "2") {
             const conflicto = await soliEspaciosRepository.createQueryBuilder("soli")
                 .where("soli.idEspacioSol = :idEspacioSol", { idEspacioSol: soliespacio.idEspacioSol })
@@ -181,7 +181,7 @@ export async function updateSoliRes(req, res) {
             }
         }
 
-        // Si el estado es '3', se requiere observaciones
+        
         if (estado === "3" && (!observaciones || observaciones.trim() === "")) {
             return res.status(400).json({ message: "Debe ingresar observaciones cuando el estado es '3'." });
         }
@@ -207,11 +207,11 @@ export async function deleteSoli(req, res) {
     try {
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
         const { id } = req.params;
-        // Buscar por idSolicitud, no por id
+        
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id } });
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada." });
 
-        // Autenticación: solo el dueño puede eliminar
+        
         if (soliespacio.rutSolicitante !== req.user.rut) {
             return res.status(403).json({ message: "No tienes permiso para eliminar esta solicitud." });
         }
