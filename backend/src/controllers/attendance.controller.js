@@ -39,7 +39,7 @@ export const getAttendanceByThread = async (req, res) => {
     try {
         const { threadId } = req.params;
         const attendanceRepo = AppDataSource.getRepository("Attendance");
-        const attendance = await attendanceRepo.find({ where: { ThreadId: Number(threadId) } });
+        const attendance = await attendanceRepo.find({ where: { threadId: Number(threadId) } });
         res.json(attendance);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener asistencia", error: error.message });

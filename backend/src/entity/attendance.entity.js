@@ -15,6 +15,14 @@ export const AttendanceEntity = new EntitySchema({
             type: Number,
             nullable: false,
         },
+        threadId: {
+            type: Number,
+            nullable: false,
+        },
+        asistencia: {
+            type: Boolean,
+            nullable: false,
+        },
         createdAt: {
             type: "timestamp",
             default: () => "CURRENT_TIMESTAMP",
@@ -35,7 +43,7 @@ export const AttendanceEntity = new EntitySchema({
         thread: {
             type: "many-to-one",
             target: "Thread",
-            joinColumn: { name: "ThreadId" },
+            joinColumn: { name: "threadId" },
             onDelete: "CASCADE",
         },
     },
