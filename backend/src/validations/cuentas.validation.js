@@ -34,12 +34,4 @@ export const createCuentaValidation = Joi.object({
       "number.min": "El saldo no puede ser negativo.",
       "any.required": "Debes ingresar el saldo.",
     }),
-  correo: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required()
-    .messages({
-      "string.email": "Debes ingresar un correo válido.",
-      "string.empty": "Debes ingresar el correo.",
-      "any.required": "Debes ingresar el correo.",
-    }),
 });
