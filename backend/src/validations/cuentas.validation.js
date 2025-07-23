@@ -33,5 +33,5 @@ export const createCuentaValidation = Joi.object({
       "number.base": "El saldo debe ser un número.",
       "number.min": "El saldo no puede ser negativo.",
       "any.required": "Debes ingresar el saldo.",
-    }),
+    })
 });
