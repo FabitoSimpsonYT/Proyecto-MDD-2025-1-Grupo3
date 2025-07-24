@@ -1,6 +1,7 @@
 "use strict";
 
 import { EntitySchema } from "typeorm";
+import { UserEntity } from "./user.entity.js";
 
 export const Publicacion = new EntitySchema({
     name: "Sugerencia",
@@ -31,5 +32,25 @@ export const Publicacion = new EntitySchema({
             type: String,
             nullable: true,
         },
+        createdAt :{
+            type :"timestamp",
+            default : () => "CURRENT_TIMESTAMP",
+        },
+        updatedAt: {
+            type :"timestamp",
+            default : () =>"CURRENT_TIMESTAMP",
+            onUpdate : () =>"CURRENT_TIMESTAMP",
+        },
     },
+    relations: {
+        autor: {
+        type: "many-to-one",
+        target: UserEntity,    
+        joinColumn: {
+            name: "autorId",   
+             },
+        eager: true,          
+        nullable: true,      
+     },
+  },
 });

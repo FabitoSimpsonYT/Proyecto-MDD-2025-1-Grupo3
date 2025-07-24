@@ -3,34 +3,113 @@
 import { Publicacion } from "../entity/sugerencias.entity.js";
 import { AppDataSource } from "../config/configDb.js";
 import { createValidation } from "../validations/sugerencia.validation.js";
+import { In } from "typeorm";
+import User from "../entity/user.entity.js";
 
 export async function getPublicacion(req, res) {
-    try {
-        const sugerenciaRepo = AppDataSource.getRepository(Publicacion);
-        const guardado = await sugerenciaRepo.find();
+  try {
+    const publicacionRepo = AppDataSource.getRepository(Publicacion);
 
-        res.status(200).json({  message: "Publicaciones hechas encontradas!", data: guardado })
-      } catch (error) {
-    console.error("Error al encontrar las publicaciones hechas", error);
-    res.status(500).json({ message: "Error al encontrar las publicaciones hechas"})
+    // Obtiene publicaciones con la relación autor cargada completa
+    const publicacionesRaw = await publicacionRepo.find({
+      relations: ["autor"],
+    });
+
+    const publicaciones = publicacionesRaw.map(pub => ({
+      id: pub.id,
+      titulo: pub.titulo,
+      contenido: pub.contenido,
+      categoria: pub.categoria,
+      estado: pub.estado,
+      comentario: pub.comentario,
+      createdAt: pub.createdAt,
+      updatedAt: pub.updatedAt,
+      autor: pub.autor
+        ? {
+            id: pub.autor.id,
+            username: pub.autor.username,
+          }
+        : null,
+    }));
+
+    res.status(200).json({
+      message: "Publicaciones hechas encontradas!",
+      data: publicaciones,
+    });
+  } catch (error) {
+    console.error("Error al obtener publicaciones:", error);
+    res.status(500).json({ message: "Error interno al obtener publicaciones" });
   }
-  
 }
 
+export async function getPublicacionesPorEmail(req, res) {
+  try {
+    const { email } = req.params;  // o de query: req.query.email
+    const publicacionRepo = AppDataSource.getRepository(Publicacion);
+
+    // Buscar publicaciones donde el autor tenga ese email
+    const publicaciones = await publicacionRepo.find({
+      where: {
+        autor: {
+          email: email
+        }
+      },
+      relations: ["autor"],
+    });
+
+    if (publicaciones.length === 0) {
+      return res.status(404).json({ message: "No se encontraron publicaciones para ese correo." });
+    }
+
+    // Opcional: devolver solo campos específicos del autor
+    const publicacionesFiltradas = publicaciones.map(pub => ({
+      ...pub,
+      autor: {
+        id: pub.autor.id,
+        username: pub.autor.username,
+        email: pub.autor.email
+      }
+    }));
+
+    res.status(200).json({
+      message: `Publicaciones del usuario ${email} encontradas.`,
+      data: publicacionesFiltradas,
+    });
+  } catch (error) {
+    console.error("Error al obtener publicaciones por email", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+}
 
 export async function getPublicacionesPorCategoria(req, res) {
   try {
-    const categoria = req.query.categoria;
+    const { categoria }= req.params;
+    const CategoriasValidas= ["sugerencia", "reclamo"];
+    if (!categoria || !CategoriasValidas.includes(categoria)) {
+      return res.status(400).json({ message: "Categoria inválida o no enviada" });
+    }
 
     const sugerenciaRepo = AppDataSource.getRepository(Publicacion);
 
     const publicaciones = await sugerenciaRepo.find({
       where: { categoria },
+      relations: ["autor"],  // aseguramos que cargue la relación
     });
 
+    const publicacionesFiltradas = publicaciones.map(pub => {
+      const { autor, ...filtroC } = pub;
+      return {
+        ...filtroC,
+        autor: autor ? {
+          id: autor.id,
+          email: autor.email,
+          username: autor.username,
+        } : null,
+      };
+    });
     res.status(200).json({
       message: `Publicaciones de categoría "${categoria}" encontradas`,
-      data: publicaciones,
+      data: publicacionesFiltradas,
     });
   } catch (error) {
     console.error("Error al obtener publicaciones por categoría", error);
@@ -41,7 +120,7 @@ export async function getPublicacionesPorCategoria(req, res) {
 
 export async function getPublicacionesPorEstado(req, res) {
   try {
-    const { estado } = req.query.estado;
+    const { estado } = req.params;
 
     const estadosValidos = ["pendiente", "revisada", "denegada"];
     if (!estado || !estadosValidos.includes(estado)) {
@@ -49,17 +128,33 @@ export async function getPublicacionesPorEstado(req, res) {
     }
 
     const sugerenciaRepo = AppDataSource.getRepository(Publicacion);
-    const publicaciones = await sugerenciaRepo.find({ where: { estado } });
+    const publicaciones = await sugerenciaRepo.find({
+      where: { estado },
+      relations: ["autor"],
+    });
+
+    const publicacionesFiltradas = publicaciones.map(pub => {
+      const { autor, ...filtroE } = pub;
+      return {
+        ...filtroE,
+        autor: autor ? {
+          id: autor.id,
+          email: autor.email,
+          username: autor.username,
+        } : null,
+      };
+    });
 
     res.status(200).json({
       message: `Publicaciones con estado "${estado}" encontradas`,
-      data: publicaciones,
+      data: publicacionesFiltradas,
     });
   } catch (error) {
     console.error("Error al obtener publicaciones por estado", error);
     res.status(500).json({ message: "Error al obtener publicaciones por estado" });
   }
 }
+
 
 
 export async function createPublicacion(req, res) {
@@ -92,11 +187,7 @@ export async function updatePublicacion(req, res) {
     const publicacionRepo = AppDataSource.getRepository(Publicacion);
     const id = req.params.id;
 
-    const { error } = updateValidation.validate(req.body);
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-
+    
     const publicacion = await publicacionRepo.findOneBy({ id });
     if (!publicacion) {
       return res.status(404).json({ message: "Publicación no encontrada" });
@@ -168,18 +259,20 @@ publicacion.estado = estado;
 
 export async function deletePublicacion(req, res) {
   try {
-     
-     const { id } = req.params.id;
-     const sugerenciaRepo = AppDataSource.getRepository(Publicacion);
-     const publicacionEncontrada = await sugerenciaRepo.findOne({ where: { id } });
-   
-     if(!publicacionEncontrada) return res.status(404).json({ message: "Publicacion no encontrada"});
+    const { id } = req.params;
 
-     await sugerenciaRepo.remove(publicacionEncontrada);
-     
-     res.status(200).json({ message: "Publicación eliminada de forma exitosa!"});
+    const sugerenciaRepo = AppDataSource.getRepository(Publicacion);
+    const publicacionEncontrada = await sugerenciaRepo.findOne({ where: { id } });
+
+    if (!publicacionEncontrada) {
+      return res.status(404).json({ message: "Publicación no encontrada" });
+    }
+
+    await sugerenciaRepo.remove(publicacionEncontrada);
+
+    res.status(200).json({ message: "Publicación eliminada de forma exitosa!" });
   } catch (error) {
     console.error("Error al eliminar la publicación", error);
-    res.status(500).json({ message: "Error al eliminar la publicación"});
+    res.status(500).json({ message: "Error al eliminar la publicación" });
   }
 }
