@@ -41,6 +41,11 @@ const Sidebar = () => {
               <CgProfile className="icon"/> Perfil
             </NavLink>
           </li>
+        <li>
+          <NavLink to="/forum">
+            <span className="icon">💬</span> Foro
+          </NavLink>
+        </li>
           <li style={{ height: "70%" }}/>
           <li className="logout">
             <NavLink to="/login" onClick={logoutSubmit}>

@@ -9,6 +9,8 @@ import Error404 from '@pages/Error404'
 import Users from '@pages/Users'
 import Profile from '@pages/Profile'
 import ProtectedRoute from '@components/ProtectedRoute'
+import Forum from "./pages/Forum";
+import ThreadCreatePage from "./pages/ThreadCreatePage";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/Forum",
+        element: <Forum />,
+      },
+      {
+        path: "/threads/create",
+        element: <ThreadCreatePage />,
       },
       {
         path: "/users",
