@@ -1,49 +1,38 @@
-import { useNavigate } from 'react-router-dom';
-import { login } from '../services/auth.service.js';
-import Form from '../components/Form';
-import ImgLogo from '../components/ImgLogo';
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import LoginRegisterForm from "@components/LoginRegisterForm";
+import { loginService } from "@services/auth.service.js";
+import luckyCat from "@assets/LuckyCat.png";
+import "@styles/loginRegister.css";
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
-    const loginSubmit = (data) => {
-        login(data).then(() => {
-            navigate('/home')
-        })
+  // Función que maneja el envío del formulario de inicio de sesión
+  const loginSubmit = async (data) => {
+    try {
+      const response = await loginService(data);
+      if (response.request.status === 200) {
+        navigate("/home");
+      } else {
+        setLoginError("Usuario o contraseña incorrectos");
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return (
-        <main className="container">
-            <ImgLogo />
-            <Form
-                title="Iniciar sesión"
-                fields={[
-                    {
-                        label: "Correo electrónico",
-                        name: "email",
-                        placeholder: "example@gmail.com",
-                        type: "email",
-                        required: true,
-                    },
-                    {
-                        label: "Contraseña",
-                        name: "password",
-                        placeholder: "**********",
-                        type: "password",
-                        required: true,
-                    },
-                    
-                ]}
-                buttonText="Iniciar sesión"
-                onSubmit={loginSubmit}
-                footerContent={
-                    <p>
-                        ¿No tienes cuenta?, <a href="/register">Regístrate aquí!</a>
-                    </p>
-                }
-            />
-        </main>
-    );
+  return (
+    <main className="page-root">
+      <div className="lucky-cat-container">
+        <img src={luckyCat} alt="Lucky Cat" className="lucky-cat" />
+      </div>
+      <div className="login-register-container">
+        <LoginRegisterForm mode="login" onSubmit={loginSubmit} loginError={loginError} />
+      </div>
+    </main>
+  );
 };
 
 export default Login;

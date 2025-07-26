@@ -1,18 +1,15 @@
+import { useAuth } from '@context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-    const storedUser = JSON.parse(sessionStorage.getItem('usuario'));
-    const userRole = storedUser?.rol;
-
-    const isAuthenticated = !!storedUser;
-    const isAuthorized = allowedRoles ? allowedRoles.includes(userRole) : true;
-
+    const { isAuthenticated, user } = useAuth();
+    
     if (!isAuthenticated) {
-        return <Navigate to="/" />;
+        return <Navigate to="/login" />;
     }
 
-    if (!isAuthorized) {
-        return <Navigate to="/home"/>;
+    if (allowedRoles && !allowedRoles.includes(user?.rol)) {
+        return <Navigate to="/home" />;
     }
 
     return children;

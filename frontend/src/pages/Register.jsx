@@ -1,59 +1,34 @@
-import { useNavigate } from 'react-router-dom';
-import { register } from '../services/auth.service.js';
-import Form from "../components/Form";
-import ImgLogo from "../components/ImgLogo";
+import { useNavigate } from "react-router-dom"
+import LoginRegisterForm from "@components/LoginRegisterForm"
+import { registerService } from '@services/auth.service.js'
+import '@styles/loginRegister.css'
+import luckyCat from "@assets/LuckyCat.png"
 
 const Register = () => {
+    const navigate = useNavigate();
 
-	const navigate = useNavigate();
-
-    const registerSubmit = (data) => {
-        register(data).then(() => {
-            navigate('/')
-        })
+    const registerSubmit = async (data) => {
+        try {
+            const response = await registerService(data);
+            if (response.request.status === 201) {
+                navigate("/login");
+            } else {
+                console.error("Error al registrar usuario");
+            }
+        } catch (error) {
+            console.error("Error al registrar usuario", error);
+        }
     }
+    return (
+        <main className="page-root">
+      <div className="lucky-cat-container">
+        <img src={luckyCat} alt="Lucky Cat" className="lucky-cat" />
+      </div>
+      <div className="login-register-container">
+        <LoginRegisterForm mode="register" onSubmit={registerSubmit} />
+      </div>
+    </main>
+    )
+}
 
-	return (
-		<main className="container">
-			<ImgLogo />
-			<Form
-				title="Crea tu cuenta"
-				fields={[
-					{
-						label: "Nombre de usuario",
-						name: "username",
-						placeholder: "Didudo",
-						type: "text",
-					},
-                    {
-						label: "Correo electrónico",
-                        name: "email",
-                        placeholder: "example@gmail.com",
-                        type: "email",
-                    },
-                    {
-						label: "RUT",
-                        name: "rut",
-                        placeholder: "23.770.330-1",
-                        type: "text",
-                    },
-					{
-						label: "Contraseña",
-						name: "password",
-						placeholder: "*********",
-						type: "password",
-					},
-				]}
-				buttonText="Registrarse"
-				onSubmit={registerSubmit}
-				footerContent={
-					<p>
-						¿Ya tienes cuenta?, <a href="/">Inicia sesión aquí!</a>
-					</p>
-				}
-			/>
-		</main>
-	);
-};
-
-export default Register;
+export default Register
