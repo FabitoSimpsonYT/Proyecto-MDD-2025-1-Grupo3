@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ThreadCreateForm from '../components/ThreadCreateForm';
 import '../styles/forum.css';

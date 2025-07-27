@@ -1,4 +1,13 @@
 
+export const updateThread = async (id, threadData) => {
+  try {
+    const response = await axios.put(`/threads/${id}`, threadData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Error al actualizar el hilo' };
+  }
+};
+
 import axios from './root.service.js';
 
 export const getThreads = async () => {

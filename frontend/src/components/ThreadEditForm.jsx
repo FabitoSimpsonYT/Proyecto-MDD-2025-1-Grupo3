@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createThread } from '../services/forum.service';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getThreads, updateThread } from '../services/forum.service';
 import '../styles/threadCreateForm.css';
 
 const tipos = [
@@ -9,40 +9,61 @@ const tipos = [
   { value: 'asamblea', label: 'Asamblea' },
 ];
 
-const ThreadCreateForm = ({ onCreated }) => {
+const ThreadEditForm = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [thread, setThread] = useState(null);
   const [titulo, setTitulo] = useState('');
   const [tipo, setTipo] = useState('actividad');
   const [soloLectura, setSoloLectura] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchThread = async () => {
+      try {
+        const threads = await getThreads();
+        const t = threads.find(th => String(th.id) === String(id));
+        if (t) {
+          setThread(t);
+          setTitulo(t.titulo);
+          setTipo(t.tipo);
+          setSoloLectura(t.soloLectura);
+        } else {
+          setError('Hilo no encontrado');
+        }
+      } catch (err) {
+        setError('Error al cargar el hilo');
+      }
+    };
+    fetchThread();
+  }, [id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
-      await createThread({ titulo, tipo, soloLectura });
-      setTitulo('');
-      setTipo('actividad');
-      setSoloLectura(false);
-      if (onCreated) onCreated();
+      await updateThread(id, { titulo, tipo, soloLectura });
       navigate('/forum');
     } catch (err) {
-      setError(err.message || 'Error al crear el hilo');
+      setError(err.message || 'Error al actualizar el hilo');
     } finally {
       setLoading(false);
     }
   };
+
+  if (error) return <div className="form-error">{error}</div>;
+  if (!thread) return <div>Cargando...</div>;
 
   const usuario = JSON.parse(sessionStorage.getItem('usuario'));
   const esAdmin = usuario?.rol === 'administrador';
 
   return (
     <form className="thread-create-form" onSubmit={handleSubmit}>
-      <h2>Crear nuevo hilo</h2>
+      <h2>Editar hilo</h2>
       <div className="form-group">
-        <label className="form-label"></label>
+        <label className="form-label">Título</label>
         <textarea
           value={titulo}
           onChange={e => setTitulo(e.target.value)}
@@ -52,7 +73,6 @@ const ThreadCreateForm = ({ onCreated }) => {
           style={{ resize: 'vertical', minHeight: 48, maxHeight: 180 }}
         />
       </div>
-      
       <div className="form-group">
         <label className="form-label">Tipo</label>
         <select
@@ -83,10 +103,10 @@ const ThreadCreateForm = ({ onCreated }) => {
         disabled={loading}
         className={`btn-create-thread${loading ? ' loading' : ''}`}
       >
-        {loading ? 'Creando...' : 'Crear hilo'}
+        {loading ? 'Actualizando...' : 'Actualizar hilo'}
       </button>
     </form>
   );
 };
 
-export default ThreadCreateForm;
+export default ThreadEditForm;
