@@ -13,6 +13,11 @@ import Forum from "./pages/Forum";
 import ThreadCreatePage from "./pages/ThreadCreatePage";
 import ThreadEditPage from "./pages/ThreadEditPage";
 import ThreadDetail from "./pages/ThreadDetail";
+import CrearPublicacion from "@pages/publicaciones";
+import VerPublicaciones from "@pages/VerPublicaciones";
+import MisPublicaciones from "@pages/MisPublicaciones";
+import UserPublicaciones from "@pages/UserPublicaciones";
+
 
 const router = createBrowserRouter([
   {
@@ -24,6 +29,10 @@ const router = createBrowserRouter([
         path: "/home",
         element: <Home />,
       },
+      { path: "/crear-publicacion", element: <CrearPublicacion /> },
+      { path: "/publicaciones", element: <VerPublicaciones /> },
+      { path: "/mis-publicaciones", element: <MisPublicaciones /> },
+      { path: "/UserPublicaciones", element: <UserPublicaciones /> },
       {
         path: "/Forum",
         element: <Forum />,

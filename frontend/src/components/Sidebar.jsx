@@ -4,6 +4,7 @@ import { FaHome, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import "@styles/Sidebar.css";
 
+
 const Sidebar = () => {
   const navigate = useNavigate();
 
@@ -36,6 +37,12 @@ const Sidebar = () => {
               </NavLink>
             </li>
           )}
+          <li>
+              <NavLink to="/UserPublicaciones" className="nav-item">
+                <img src="/publicacion-file.png" alt="Publicaciones" className="icon-publicaciones" /> 
+                <span className="nav-text">Publicaciones</span>
+              </NavLink>
+          </li>
           <li>
             <NavLink to="/profile">
               <CgProfile className="icon"/> Perfil
