@@ -37,9 +37,6 @@ export const getThreads = async (req, res) => {
     try {
         const threadRepo = AppDataSource.getRepository(ThreadEntity);
         const threads = await threadRepo.find();
-        if (!threads || threads.length === 0) {
-            return res.status(404).json({ message: "No se encontraron hilos." });
-        }
         res.json(threads);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los hilos." });

@@ -47,7 +47,7 @@ const ThreadDetail = () => {
       <div style={{ marginBottom: 8, color: '#888' }}>
         Creado por: {thread.creadoPor} | {new Date(thread.createdAt).toLocaleString()}
       </div>
-      <Comments threadId={thread.id} />
+      <Comments threadId={thread.id} soloLectura={thread.soloLectura} />
     </div>
   );
 };

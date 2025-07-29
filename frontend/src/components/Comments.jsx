@@ -7,7 +7,7 @@ const esAdmin = usuario?.rol === 'administrador';
 import { getPublicUsers } from '../services/user.service';
 
 
-const Comments = ({ threadId }) => {
+const Comments = ({ threadId, soloLectura }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -167,18 +167,24 @@ const Comments = ({ threadId }) => {
           )}
         </ul>
       )}
-      <form onSubmit={handleSubmit} style={{ marginTop: 16 }}>
-        <textarea
-          value={contenido}
-          onChange={e => setContenido(e.target.value)}
-          placeholder="Escribe un comentario..."
-          rows={2}
-          style={{ width: '100%', borderRadius: 6, padding: 8, border: '1px solid #ccc', resize: 'vertical' }}
-        />
-        <button type="submit" disabled={posting || !contenido.trim()} className="btn-create-thread" style={{ marginTop: 8 }}>
-          {posting ? 'Publicando...' : 'Comentar'}
-        </button>
-      </form>
+      {soloLectura ? (
+        <div style={{ marginTop: 16, color: '#b91c1c', fontWeight: 500, textAlign: 'center' }}>
+          Los comentarios están deshabilitados en este hilo de solo lectura.
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} style={{ marginTop: 16 }}>
+          <textarea
+            value={contenido}
+            onChange={e => setContenido(e.target.value)}
+            placeholder="Escribe un comentario..."
+            rows={2}
+            style={{ width: '100%', borderRadius: 6, padding: 8, border: '1px solid #ccc', resize: 'vertical' }}
+          />
+          <button type="submit" disabled={posting || !contenido.trim()} className="btn-create-thread" style={{ marginTop: 8 }}>
+            {posting ? 'Publicando...' : 'Comentar'}
+          </button>
+        </form>
+      )}
     </div>
   );
 };

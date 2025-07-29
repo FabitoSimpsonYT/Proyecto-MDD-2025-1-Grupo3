@@ -23,9 +23,7 @@ const ThreadCreateForm = ({ onCreated }) => {
     setError(null);
     setLoading(true);
     try {
-      const usuario = JSON.parse(sessionStorage.getItem('usuario'));
-      const creadoPor = usuario?.id;
-      await createThread({ titulo, tipo, soloLectura, creadoPor });
+      await createThread({ titulo, tipo, soloLectura });
       setTitulo('');
       setTipo('');
       setSoloLectura(false);

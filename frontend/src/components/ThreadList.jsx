@@ -62,7 +62,9 @@ const ThreadList = ({ threads }) => {
       </div>
       <div className="thread-list">
         {threadsFiltrados.length === 0 ? (
-          <div style={{ margin: '1.5rem', color: '#888' }}>No hay hilos para este filtro.</div>
+          <div style={{ margin: '3rem auto', color: '#888', textAlign: 'center', maxWidth: 400 }}>
+            No se encontraron hilos.
+          </div>
         ) : (
           threadsFiltrados.map(thread => (
             <div key={thread.id} className="thread-item">
