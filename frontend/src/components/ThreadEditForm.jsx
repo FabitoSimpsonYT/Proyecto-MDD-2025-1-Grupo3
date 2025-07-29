@@ -4,6 +4,7 @@ import { getThreads, updateThread } from '../services/forum.service';
 import '../styles/threadCreateForm.css';
 
 const tipos = [
+  { value: '', label: 'Selecciona un tipo...' },
   { value: 'actividad', label: 'Actividad' },
   { value: 'comunicado', label: 'Comunicado' },
   { value: 'asamblea', label: 'Asamblea' },
@@ -14,7 +15,7 @@ const ThreadEditForm = () => {
   const navigate = useNavigate();
   const [thread, setThread] = useState(null);
   const [titulo, setTitulo] = useState('');
-  const [tipo, setTipo] = useState('actividad');
+  const [tipo, setTipo] = useState('');
   const [soloLectura, setSoloLectura] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +28,7 @@ const ThreadEditForm = () => {
         if (t) {
           setThread(t);
           setTitulo(t.titulo);
-          setTipo(t.tipo);
+          setTipo(t.tipo || '');
           setSoloLectura(t.soloLectura);
         } else {
           setError('Hilo no encontrado');
@@ -60,8 +61,9 @@ const ThreadEditForm = () => {
   const esAdmin = usuario?.rol === 'administrador';
 
   return (
+    
     <form className="thread-create-form" onSubmit={handleSubmit}>
-      <h2>Editar hilo</h2>
+      <h1 className="thread-edit-title">Editar hilo</h1>
       <div className="form-group">
         <label className="form-label">Título</label>
         <textarea
@@ -79,9 +81,10 @@ const ThreadEditForm = () => {
           value={tipo}
           onChange={e => setTipo(e.target.value)}
           className="form-input"
+          required
         >
           {tipos.map(t => (
-            <option key={t.value} value={t.value}>{t.label}</option>
+            <option key={t.value} value={t.value} disabled={t.value === ''}>{t.label}</option>
           ))}
         </select>
       </div>

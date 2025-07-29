@@ -12,6 +12,7 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import Forum from "./pages/Forum";
 import ThreadCreatePage from "./pages/ThreadCreatePage";
 import ThreadEditPage from "./pages/ThreadEditPage";
+import ThreadDetail from "./pages/ThreadDetail";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/threads/:id/edit",
         element: <ThreadEditPage />,
+      },
+            {
+        path: "/threads/:id",
+        element: <ThreadDetail />,
       },
       {
         path: "/users",

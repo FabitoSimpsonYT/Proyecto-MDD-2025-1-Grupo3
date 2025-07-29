@@ -1,6 +1,6 @@
 .forum-container {
   max-width: 800px;
-  margin: 16rem auto 0 auto;
+  margin: 13rem auto 0 auto;
   padding: 2.5rem 2rem 2rem 2rem;
   background: #fff;
   border-radius: 16px;
@@ -16,7 +16,7 @@
 
 .thread-list {
   margin-top: 2.5rem;
-  max-height: 60vh;
+  max-height: 50vh;
   overflow-y: auto;
   padding-right: 8px;
   background: #f8fafc;

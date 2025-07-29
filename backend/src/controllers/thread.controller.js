@@ -49,11 +49,9 @@ export const getThreads = async (req, res) => {
 export const updateThread = async (req, res) => {
     try {
         const {id} = req.params;
-        const { titulo, tipo, soloLectura } = req.body;
-        const user = req.user;
+        const { titulo, tipo } = req.body;
         const { error } = threadValidation.validate(req.body);
         if (error) return res.status(400).json({ message: "Error de validación" });
-
 
         const threadRepo = AppDataSource.getRepository(ThreadEntity);
         const thread = await threadRepo.findOneBy({ id: Number(id) });
@@ -62,20 +60,11 @@ export const updateThread = async (req, res) => {
             return res.status(404).json({ message: "Hilo no encontrado." });
         }
 
-        if (thread.soloLectura && user.role !== "administrador") {
-            return res.status(403).json({ message: "No tienes permiso para editar un hilo de solo lectura." });
-        }
-         if (soloLectura !== undefined) {
-            if (user.role !== "administrador") {
-                return res.status(403).json({ message: "Solo el administrador puede cambiar soloLectura." });
-            }
-            thread.soloLectura = soloLectura;
-        }
-    if (titulo !== undefined) thread.titulo = titulo;
-    if ( tipo !== undefined) thread.tipo = tipo;
+        if (titulo !== undefined) thread.titulo = titulo;
+        if (tipo !== undefined) thread.tipo = tipo;
 
-    await threadRepo.save(thread);
-    res.json({ message: "Hilo actualizado correctamente.", thread });
+        await threadRepo.save(thread);
+        res.json({ message: "Hilo actualizado correctamente.", thread });
     
     }catch (error) {
         res.status(500).json({ message: "Error al actualizar el hilo.", error: error.message });
