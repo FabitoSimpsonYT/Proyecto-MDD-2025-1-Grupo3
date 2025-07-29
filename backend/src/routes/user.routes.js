@@ -10,10 +10,6 @@ const router = Router();
 // Ruta pública para obtener información limitada de usuarios
 router.get("/public", getPublicUsers);
 
-
-// Ruta pública para obtener información limitada de usuarios
-router.get("/public", getPublicUsers);
-
 // Middleware para autenticar el JWT
 router.use(authenticateJwt);
 
