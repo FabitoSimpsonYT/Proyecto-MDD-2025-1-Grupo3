@@ -1,0 +1,23 @@
+.comment-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 2px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+.comment-edit-btn {
+  color: #2563eb;
+}
+.comment-edit-btn:hover {
+  color: #1d4ed8;
+}
+.comment-delete-btn {
+  color: #ef4444;
+}
+.comment-delete-btn:hover {
+  color: #b91c1c;
+}
