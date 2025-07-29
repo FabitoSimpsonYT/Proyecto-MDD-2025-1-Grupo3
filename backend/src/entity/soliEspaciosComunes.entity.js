@@ -11,14 +11,6 @@ export const soliEspaciosEntity = new EntitySchema({
             primary: true,
             generated: true,
         },
-        rutSolicitante: {
-            type: String,
-            nullable: false,
-        },
-        nombreSolicitante: {
-            type: String,
-            nullable: false,
-        },
         idEspacioSol: {
             type: Number,
             ForeignKey: true,
@@ -30,8 +22,8 @@ export const soliEspaciosEntity = new EntitySchema({
         },
         estado: {
             type: String,
-            enum: ["1", "2", "3"],
-            default: "1",
+            enum: ["Sin Respuesta", "Aprobado", "Rechazado"],
+            default: "Sin Respuesta",
         },
         fechaInicio: {
             type: Date,
@@ -61,6 +53,21 @@ export const soliEspaciosEntity = new EntitySchema({
             type: "timestamp",
             default: () => "CURRENT_TIMESTAMP",
             onUpdate: () => "CURRENT_TIMESTAMP",
+        },
+    },
+    relations: {
+        espacio: {
+            type: "many-to-one",
+            target: "EspacioComun",
+            joinColumn: { name: "idEspacioSol"},
+            onDelete: "CASCADE",
+        },
+        Solicitante: {
+            type: "many-to-one",
+            target: "User",
+            joinColumn: { name: "idSolicitante" },
+            nullable: false, // <-- asegúrate que no sea nulo
+            onDelete: "CASCADE",
         },
     },
 });

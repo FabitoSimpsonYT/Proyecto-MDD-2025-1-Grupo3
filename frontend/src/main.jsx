@@ -17,6 +17,11 @@ import CrearPublicacion from "@pages/publicaciones";
 import VerPublicaciones from "@pages/VerPublicaciones";
 import MisPublicaciones from "@pages/MisPublicaciones";
 import UserPublicaciones from "@pages/UserPublicaciones";
+import EspaciosComunes from '@pages/EspaciosComunes';
+import SoliEspacios from '@pages/SoliEspacios';
+import SoliDetalle from '@pages/SoliDetalle';
+import SoliEspaciosRes from '@pages/SoliEspaciosRes';
+import SoliDetalleAdmin from '@pages/SoliDetalleAdmin';
 
 
 const router = createBrowserRouter([
@@ -25,6 +30,10 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <Error404 />,
     children: [
+      {
+        index: true,
+        element: <Home />,
+      },
       {
         path: "/home",
         element: <Home />,
@@ -60,7 +69,39 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
-      }
+      },
+      {
+        path: "/soliEspacios",
+        element: <SoliEspacios/>,
+      },
+      {
+        path: "/soliEspacios/:idSolicitud",
+        element: <SoliDetalle />,
+      },
+      {
+        path: "/soliEspaciosRes",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <SoliEspaciosRes />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/soliEspaciosRes/:idSolicitud",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <SoliDetalleAdmin />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/espaciosComunes",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <EspaciosComunes />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {

@@ -2,6 +2,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "@services/auth.service.js";
 import { FaHome, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { LiaPlaceOfWorshipSolid } from "react-icons/lia";
+import { MdPlace } from "react-icons/md";
 import "@styles/Sidebar.css";
 
 
@@ -44,15 +46,35 @@ const Sidebar = () => {
               </NavLink>
           </li>
           <li>
+            <NavLink to="/forum">
+            <span className="icon">💬</span> Foro
+            </NavLink>
+          </li>
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/espaciosComunes">
+                <LiaPlaceOfWorshipSolid className="icon"/> Espacios Comunes
+              </NavLink>
+            </li>
+          )}
+          <li>
+            <NavLink to="/soliEspacios">
+              <MdPlace className="icon"/> Solicitar Espacios
+            </NavLink>
+          </li>
+          <li>
+            {userRole === "administrador" && (
+              <NavLink to="/soliEspaciosRes">
+                <MdPlace className="icon"/> Responder Solicitudes de Espacios
+              </NavLink>
+            )}
+          </li>
+          {/* --- End new items --- */}
+          <li>
             <NavLink to="/profile">
               <CgProfile className="icon"/> Perfil
             </NavLink>
           </li>
-        <li>
-          <NavLink to="/forum">
-            <span className="icon">💬</span> Foro
-          </NavLink>
-        </li>
           <li style={{ height: "70%" }}/>
           <li className="logout">
             <NavLink to="/login" onClick={logoutSubmit}>
