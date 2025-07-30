@@ -19,5 +19,10 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, './src/styles'),
       '@services': path.resolve(__dirname, './src/services'),
     }
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   }
 })

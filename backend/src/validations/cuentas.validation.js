@@ -15,16 +15,12 @@ export const createCuentaValidation = Joi.object({
       "any.required": "Debes ingresar el nombre.",
     }),
   rut: Joi.string()
-    .min(7)
-    .max(12)
     .required()
-    .pattern(/^[0-9kK\-]+$/)
+    .pattern(/^\d{2}\.\d{3}\.\d{3}-[\dkK]$/)
     .messages({
-      "string.pattern.base": "El RUT solo puede tener números, guión y la letra K.",
-      "string.min": "El RUT es demasiado corto.",
-      "string.max": "El RUT es demasiado largo.",
-      "string.empty": "Debes ingresar el RUT.",
-      "any.required": "Debes ingresar el RUT.",
+      "string.empty": "El rut no puede estar vacío.",
+      "string.base": "El rut debe ser de tipo string.",
+      "string.pattern.base": "Formato rut inválido. Debe ser xx.xxx.xxx-x.",
     }),
   saldo: Joi.number()
     .min(0)

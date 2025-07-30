@@ -39,6 +39,20 @@ const Sidebar = () => {
               </NavLink>
             </li>
           )}
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/cuentas">
+                <span className="icon">💳</span> Cuentas
+              </NavLink>
+            </li>
+          )}
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/pagos">
+                <span className="icon">💵</span> Pagos
+              </NavLink>
+            </li>
+          )}
           <li>
               <NavLink to="/UserPublicaciones" className="nav-item">
                 <img src="/publicacion-file.png" alt="Publicaciones" className="icon-publicaciones" /> 
@@ -75,6 +89,23 @@ const Sidebar = () => {
               <CgProfile className="icon"/> Perfil
             </NavLink>
           </li>
+
+          <li>
+            <NavLink to="/historial-pagos">
+              <span className="icon">📄</span> Mi Historial de Pagos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/solicitar-pago">
+              <span className="icon">💸</span> Solicitar Pago
+            </NavLink>
+          </li>
+        <li>
+          <NavLink to="/forum">
+            <span className="icon">💬</span> Foro
+          </NavLink>
+        </li>
+
           <li style={{ height: "70%" }}/>
           <li className="logout">
             <NavLink to="/login" onClick={logoutSubmit}>

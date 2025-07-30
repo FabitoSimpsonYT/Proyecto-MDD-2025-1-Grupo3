@@ -8,10 +8,16 @@ import Register from '@pages/Register'
 import Error404 from '@pages/Error404'
 import Users from '@pages/Users'
 import Profile from '@pages/Profile'
+import HistorialPagosUsuarioPage from './pages/HistorialPagosUsuarioPage';
+import SolicitarPagoPage from './pages/SolicitarPagoPage';
 import ProtectedRoute from '@components/ProtectedRoute'
 import Forum from "./pages/Forum";
 import ThreadCreatePage from "./pages/ThreadCreatePage";
 import ThreadEditPage from "./pages/ThreadEditPage";
+
+import Cuentas from "./pages/Cuentas.jsx";
+import Pagos from "./pages/Pagos.jsx";
+
 import ThreadDetail from "./pages/ThreadDetail";
 import CrearPublicacion from "@pages/publicaciones";
 import VerPublicaciones from "@pages/VerPublicaciones";
@@ -22,6 +28,7 @@ import SoliEspacios from '@pages/SoliEspacios';
 import SoliDetalle from '@pages/SoliDetalle';
 import SoliEspaciosRes from '@pages/SoliEspaciosRes';
 import SoliDetalleAdmin from '@pages/SoliDetalleAdmin';
+
 
 
 const router = createBrowserRouter([
@@ -67,10 +74,32 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/cuentas",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <Cuentas />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/pagos",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <Pagos />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/profile",
         element: <Profile />,
       },
       {
+
+        path: "/historial-pagos",
+        element: (
+          <ProtectedRoute>
+            <HistorialPagosUsuarioPage />
+
         path: "/soliEspacios",
         element: <SoliEspacios/>,
       },
@@ -83,10 +112,17 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <SoliEspaciosRes />
+
           </ProtectedRoute>
         ),
       },
       {
+
+        path: "/solicitar-pago",
+        element: (
+          <ProtectedRoute>
+            <SolicitarPagoPage />
+
         path: "/soliEspaciosRes/:idSolicitud",
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
@@ -99,6 +135,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <EspaciosComunes />
+
           </ProtectedRoute>
         ),
       },

@@ -28,8 +28,18 @@ export async function loginService(datauser) {
         const { status, data } = response;
         if (status === 200) {
             const decoded = jwtDecode(data.accessToken);
+
+          
+            const userData = {
+                username: decoded.username,
+                email: decoded.email,
+                rut: decoded.rut,
+                rol: decoded.rol || decoded.role 
+            };
+
             const { id, username, email, rut, rol } = decoded;
             const userData = { id, username, email, rut, rol };
+
             sessionStorage.setItem('usuario', JSON.stringify(userData));
             sessionStorage.setItem('id', id);
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;

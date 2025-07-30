@@ -1,3 +1,50 @@
+export const rechazarPagoAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { observacion } = req.body;
+    const pago = await obtenerPagoPorId(id);
+    if (!pago) return res.status(404).json({ error: "Pago no encontrado" });
+    const actualizado = await confirmarPago(id, "rechazado", observacion || "Rechazado por admin");
+    res.json({ message: "Pago rechazado", pago: actualizado });
+  } catch (error) {
+    res.status(500).json({ error: "Error al rechazar pago" });
+  }
+};
+// Obtener historial de pagos del usuario autenticado
+export const obtenerHistorialPagosUsuario = async (req, res) => {
+  try {
+    // Suponiendo que el JWT incluye el rut del usuario
+    const rutUsuario = req.user?.rut;
+    if (!rutUsuario) return res.status(401).json({ error: 'No autorizado' });
+
+    // Buscar la cuenta asociada al rut
+    const cuenta = await cuentaRepository().findOneBy({ rut: rutUsuario });
+    if (!cuenta) return res.status(404).json({ error: 'Cuenta no encontrada' });
+
+    // Buscar pagos de esa cuenta
+    const pagos = await pagoRepository().find({ where: { cuentaId: cuenta.id } });
+    // Agregar nombre y rut de la cuenta a cada pago
+    const pagosConCuenta = pagos.map(p => ({
+      ...p,
+      nombreCuenta: cuenta.nombre,
+      rutCuenta: cuenta.rut
+    }));
+    res.json(pagosConCuenta);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener el historial de pagos del usuario' });
+  }
+};
+// Obtener historial de pagos por cuenta
+export const obtenerHistorialPagosPorCuenta = async (req, res) => {
+  try {
+    const { cuentaId } = req.params;
+    // Buscar todos los pagos asociados a la cuenta
+    const pagos = await pagoRepository().find({ where: { cuentaId: Number(cuentaId) } });
+    res.json(pagos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el historial de pagos" });
+  }
+};
 import { AppDataSource } from "../config/configDb.js";
 import PagoSchema from "../entity/pago.entity.js";
 import CuentaSchema from "../entity/cuenta.entity.js";

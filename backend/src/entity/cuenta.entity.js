@@ -28,12 +28,6 @@ const CuentaSchema = new EntitySchema({
       nullable: false,
       default: 0,
     },
-    correo: {
-      type: "varchar",
-      length: 100,
-      nullable: false,
-      unique: true,
-    },
   },
 });
 

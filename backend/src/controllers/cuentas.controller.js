@@ -11,13 +11,8 @@ export const registrarUsuario = async (req, res) => {
     return res.status(400).json({ error: error.details[0].message });
   }
   try {
-    const { nombre, saldo, rut, correo } = req.body;
-  
-    const existeCorreo = await cuentaRepository().findOneBy({ correo });
-    if (existeCorreo) {
-      return res.status(409).json({ error: "El correo ya está registrado." });
-    }
-    const nuevaCuenta = cuentaRepository().create({ nombre, saldo, rut, correo });
+    const { nombre, saldo, rut } = req.body;
+    const nuevaCuenta = cuentaRepository().create({ nombre, saldo, rut });
     await cuentaRepository().save(nuevaCuenta);
     res.status(201).json(nuevaCuenta);
   } catch (error) {
@@ -38,22 +33,26 @@ export const listarUsuarios = async (req, res) => {
 
 export const modificarUsuario = async (req, res) => {
   const { id } = req.params;
-  
-  const { nombre, saldo } = req.body;
-  const { error } = createCuentaValidation.validate({ nombre, saldo, rut: "11111111-1" }); 
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
+  const { nombre, saldo, rut } = req.body;
   try {
     const cuenta = await cuentaRepository().findOneBy({ id: Number(id) });
     if (!cuenta) {
+      console.error("Cuenta no encontrada para id:", id);
       return res.status(404).json({ error: "Cuenta no encontrada" });
+    }
+    // Validar con el rut real de la cuenta (no uno fijo)
+    const validacion = { nombre, saldo, rut: rut || cuenta.rut };
+    const { error } = createCuentaValidation.validate(validacion);
+    if (error) {
+      console.error("Error de validación al actualizar cuenta:", validacion, error.details[0].message);
+      return res.status(400).json({ error: error.details[0].message, data: validacion });
     }
     cuenta.nombre = nombre;
     cuenta.saldo = saldo;
     await cuentaRepository().save(cuenta);
     res.json(cuenta);
   } catch (error) {
+    console.error("Error inesperado al actualizar cuenta:", error);
     res.status(500).json({ error: "Error al actualizar la cuenta" });
   }
 };
