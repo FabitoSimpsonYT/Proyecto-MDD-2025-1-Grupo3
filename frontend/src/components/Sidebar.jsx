@@ -106,11 +106,6 @@ const Sidebar = () => {
               <span className="icon">💸</span> Solicitar Pago
             </NavLink>
           </li>
-        <li>
-          <NavLink to="/forum">
-            <span className="icon">💬</span> Foro
-          </NavLink>
-        </li>
 
           <li style={{ height: "70%" }}/>
           <li className="logout">
