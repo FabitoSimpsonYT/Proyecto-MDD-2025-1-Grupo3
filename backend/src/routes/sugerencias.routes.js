@@ -14,10 +14,10 @@ const router = Router();
 router.use(authenticateJwt);
 
 router.get("/", getPublicacion); //listo
-router.get("/mis-publicaciones", getMisPublicaciones); //listo
-router.get("/:id", getPublicacionPorId); //listo
 router.get("/categoria/:categoria", isAdmin, getPublicacionesPorCategoria); 
 router.get("/estado/:estado", isAdmin, getPublicacionesPorEstado);       
+router.get("/mis-publicaciones", getMisPublicaciones);
+router.get("/:id", getPublicacionPorId);      
 router.post("/", populateUser, createPublicacion); //listo
 router.put("/:id", updatePublicacion); //listo
 router.put("/:id/estado", isAdmin, updateEstadoComentario); //listo
