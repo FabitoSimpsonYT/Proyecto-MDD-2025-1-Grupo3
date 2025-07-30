@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "@services/auth.service.js";
 import { FaHome, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import { AiFillEdit } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { LiaPlaceOfWorshipSolid } from "react-icons/lia";
 import { MdPlace } from "react-icons/md";
@@ -74,6 +75,11 @@ const Sidebar = () => {
           <li>
             <NavLink to="/soliEspacios">
               <MdPlace className="icon"/> Solicitar Espacios
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/visitantes">
+              <AiFillEdit className="icon"/> Visitantes
             </NavLink>
           </li>
           <li>

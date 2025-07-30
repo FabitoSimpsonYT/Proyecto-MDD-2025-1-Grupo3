@@ -18,6 +18,8 @@ import ThreadEditPage from "./pages/ThreadEditPage";
 import Cuentas from "./pages/Cuentas.jsx";
 import Pagos from "./pages/Pagos.jsx";
 
+import Visitantes from "@pages/Visitantes";
+
 import ThreadDetail from "./pages/ThreadDetail";
 import CrearPublicacion from "@pages/publicaciones";
 import VerPublicaciones from "@pages/VerPublicaciones";
@@ -94,12 +96,14 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-
         path: "/historial-pagos",
         element: (
           <ProtectedRoute>
             <HistorialPagosUsuarioPage />
-
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/soliEspacios",
         element: <SoliEspacios/>,
       },
@@ -112,32 +116,36 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <SoliEspaciosRes />
-
           </ProtectedRoute>
         ),
       },
       {
-
         path: "/solicitar-pago",
         element: (
           <ProtectedRoute>
             <SolicitarPagoPage />
-
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/soliEspaciosRes/:idSolicitud",
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <SoliDetalleAdmin />
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: "/espaciosComunes",
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <EspaciosComunes />
-
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/visitantes",
+        element: <Visitantes/>, //////////// esta es mi ruta de visitantes
       },
     ],
   },
