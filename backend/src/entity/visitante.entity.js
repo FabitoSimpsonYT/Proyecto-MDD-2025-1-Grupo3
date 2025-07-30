@@ -28,9 +28,10 @@ export const visitanteEntity = new EntitySchema({
             type:"varchar",
             nullable: true
         },
-        createdAt :{
-            type :"timestamp",
-            default : () => "CURRENT_TIMESTAMP",
+        createdAt: {
+          type: "timestamp",
+          default: () => "CURRENT_TIMESTAMP",      
+
         },
         updatedAt: {
             type :"timestamp",
@@ -41,14 +42,11 @@ export const visitanteEntity = new EntitySchema({
     },
     relations: {
     residente: {
-      type: "many-to-one",
-      target: "User", // nombre definido en UserEntity
-      joinColumn: true,
-      onDelete: "CASCADE",
+    type: "many-to-one",
+    target: "User", // nombre definido en UserEntity
+    joinColumn: true,
+    onDelete: "CASCADE",
     },
   },
 
 });
-
-
-export default visitanteEntity ;

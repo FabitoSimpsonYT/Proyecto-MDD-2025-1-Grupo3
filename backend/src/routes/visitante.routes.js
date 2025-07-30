@@ -7,13 +7,12 @@ import{getvisitantes,createvisitante, deletevisitante, getvisitanteId, updatevis
 const router = Router ();
 
 router.use(authenticateJwt);
-//get visitantes y get visitantes id de las ruta 
+
 router.get("/",isAdmin,getvisitantes);
-router.get("/:id",getvisitanteId);
-//post de la createvisitante de la ruta
-router.post("/",createvisitante);
-// out de updatevisitante y deletevisitante de las ruta
-router.put("/:id",isAdmin,updatevisitante);
 router.delete("/:id",isAdmin,deletevisitante)
+router.put("/:id",isAdmin,updatevisitante);
+
+router.post("/",createvisitante);
+router.get("/:id",getvisitanteId);
  
 export default router ;

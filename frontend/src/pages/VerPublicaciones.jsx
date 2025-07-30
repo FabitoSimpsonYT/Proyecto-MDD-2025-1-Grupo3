@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import {
   obtenerPublicaciones,
   actualizarEstado,
-  obtenerPublicacionesPorCategoria,
-  obtenerPublicacionesPorEstado,
 } from "../services/publicaciones.service";
 import "@styles/publicaciones.css";
 
