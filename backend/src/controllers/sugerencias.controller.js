@@ -162,7 +162,6 @@ export async function getPublicacionesPorCategoria(req, res) {
         ...filtroC,
         autor: autor ? {
           id: autor.id,
-          email: autor.email,
           username: autor.username,
         } : null,
       };
@@ -200,7 +199,6 @@ export async function getPublicacionesPorEstado(req, res) {
         ...filtroE,
         autor: autor ? {
           id: autor.id,
-          email: autor.email,
           username: autor.username,
         } : null,
       };

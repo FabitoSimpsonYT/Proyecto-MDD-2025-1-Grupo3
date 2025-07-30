@@ -36,6 +36,20 @@ export async function obtenerPublicacionPorId(id) {
 }
 
 
+
+export async function obtenerPublicacionesPorCategoria(categoria) {
+  const response = await axios.get(`/sugerencias/categoria/${categoria}`);
+  return response.data.data;
+}
+
+
+export async function obtenerPublicacionesPorEstado(estado) {
+  const response = await axios.get(`/sugerencias/estado/${estado}`);
+  return response.data.data;
+}
+
+
+
 export async function actualizarPublicacion(id, datos) {
   try {
     console.log("🔍 Enviando datos:", datos);
