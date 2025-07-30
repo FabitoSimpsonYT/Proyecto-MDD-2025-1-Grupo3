@@ -33,17 +33,35 @@ const Forum = () => {
   if (error) return <div className="forum-error">{error}</div>;
 
   return (
-    <div className="forum-container">
-      <h1>Foro de la Comunidad</h1>
-      <button
-        className="btn-create-thread"
-        style={{ marginBottom: 24, padding: '0.6em 1.5em', borderRadius: 8, background: '#2563eb', color: '#fff', border: 'none', fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
-        onClick={() => navigate('/threads/create')}
-      >
-        Crear nuevo hilo
-      </button>
-      <ThreadList threads={threads} />
-    </div>
+    <>
+      {threads.length === 0 ? (
+        <div className="forum-empty-container" style={{ margin: '3rem auto', color: '#888', textAlign: 'center', maxWidth: 400 }}>
+          <div style={{ fontSize: 20, marginBottom: 12 }}>No se encontraron hilos.</div>
+          <div style={{ marginBottom: 18 }}>
+            ¡Sé el primero en crear un hilo para iniciar la conversación!
+          </div>
+          <button
+            className="btn-create-thread"
+            style={{ padding: '0.5em 1.5em', borderRadius: 7, border: '1.5px solid #2563eb', background: '#2563eb', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: 16 }}
+            onClick={() => navigate('/threads/create')}
+          >
+            Crear primer hilo
+          </button>
+        </div>
+      ) : (
+        <div className="forum-container">
+          <h1>Foro de la Comunidad</h1>
+          <button
+            className="btn-create-thread"
+            style={{ marginBottom: 24, padding: '0.6em 1.5em', borderRadius: 8, background: '#2563eb', color: '#fff', border: 'none', fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
+            onClick={() => navigate('/threads/create')}
+          >
+            Crear nuevo hilo
+          </button>
+          <ThreadList threads={threads} />
+        </div>
+      )}
+    </>
   );
 };
 

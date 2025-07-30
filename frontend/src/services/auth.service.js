@@ -28,14 +28,20 @@ export async function loginService(datauser) {
         const { status, data } = response;
         if (status === 200) {
             const decoded = jwtDecode(data.accessToken);
-            // Forzar que siempre se guarde como 'rol' (aunque venga como 'role')
+
+          
             const userData = {
                 username: decoded.username,
                 email: decoded.email,
                 rut: decoded.rut,
-                rol: decoded.rol || decoded.role // usa 'rol' si existe, si no usa 'role'
+                rol: decoded.rol || decoded.role 
             };
+
+            const { id, username, email, rut, rol } = decoded;
+            const userData = { id, username, email, rut, rol };
+
             sessionStorage.setItem('usuario', JSON.stringify(userData));
+            sessionStorage.setItem('id', id);
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
             cookies.set('jwt-auth', data.accessToken, { path: '/' });
             return response;

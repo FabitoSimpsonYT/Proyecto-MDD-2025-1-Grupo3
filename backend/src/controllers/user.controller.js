@@ -15,6 +15,24 @@ export async function getUsers(req, res) {
   }
 }
 
+export async function getPublicUsers(req, res) {
+  try {
+    const userRepository = AppDataSource.getRepository(User);
+    const users = await userRepository.find();
+    // Solo devolver id, nombre, username y email
+    const publicUsers = users.map(u => ({
+      id: u.id,
+      nombre: u.nombre,
+      username: u.username,
+      email: u.email
+    }));
+    res.status(200).json(publicUsers);
+  } catch (error) {
+    console.error("Error en user.controller.js -> getPublicUsers(): ", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+}
+
 export async function getUserById(req, res) {
   try {
     // Obtener el repositorio de usuarios y buscar un usuario por ID

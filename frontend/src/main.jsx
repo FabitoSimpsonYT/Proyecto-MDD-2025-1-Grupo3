@@ -14,8 +14,22 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import Forum from "./pages/Forum";
 import ThreadCreatePage from "./pages/ThreadCreatePage";
 import ThreadEditPage from "./pages/ThreadEditPage";
+
 import Cuentas from "./pages/Cuentas.jsx";
 import Pagos from "./pages/Pagos.jsx";
+
+import ThreadDetail from "./pages/ThreadDetail";
+import CrearPublicacion from "@pages/publicaciones";
+import VerPublicaciones from "@pages/VerPublicaciones";
+import MisPublicaciones from "@pages/MisPublicaciones";
+import UserPublicaciones from "@pages/UserPublicaciones";
+import EspaciosComunes from '@pages/EspaciosComunes';
+import SoliEspacios from '@pages/SoliEspacios';
+import SoliDetalle from '@pages/SoliDetalle';
+import SoliEspaciosRes from '@pages/SoliEspaciosRes';
+import SoliDetalleAdmin from '@pages/SoliDetalleAdmin';
+
+
 
 const router = createBrowserRouter([
   {
@@ -24,9 +38,17 @@ const router = createBrowserRouter([
     errorElement: <Error404 />,
     children: [
       {
+        index: true,
+        element: <Home />,
+      },
+      {
         path: "/home",
         element: <Home />,
       },
+      { path: "/crear-publicacion", element: <CrearPublicacion /> },
+      { path: "/publicaciones", element: <VerPublicaciones /> },
+      { path: "/mis-publicaciones", element: <MisPublicaciones /> },
+      { path: "/UserPublicaciones", element: <UserPublicaciones /> },
       {
         path: "/Forum",
         element: <Forum />,
@@ -38,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/threads/:id/edit",
         element: <ThreadEditPage />,
+      },
+            {
+        path: "/threads/:id",
+        element: <ThreadDetail />,
       },
       {
         path: "/users",
@@ -68,18 +94,48 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+
         path: "/historial-pagos",
         element: (
           <ProtectedRoute>
             <HistorialPagosUsuarioPage />
+
+        path: "/soliEspacios",
+        element: <SoliEspacios/>,
+      },
+      {
+        path: "/soliEspacios/:idSolicitud",
+        element: <SoliDetalle />,
+      },
+      {
+        path: "/soliEspaciosRes",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <SoliEspaciosRes />
+
           </ProtectedRoute>
         ),
       },
       {
+
         path: "/solicitar-pago",
         element: (
           <ProtectedRoute>
             <SolicitarPagoPage />
+
+        path: "/soliEspaciosRes/:idSolicitud",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <SoliDetalleAdmin />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/espaciosComunes",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <EspaciosComunes />
+
           </ProtectedRoute>
         ),
       },

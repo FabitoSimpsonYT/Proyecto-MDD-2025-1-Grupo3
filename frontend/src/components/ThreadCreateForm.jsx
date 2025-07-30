@@ -4,6 +4,7 @@ import { createThread } from '../services/forum.service';
 import '../styles/threadCreateForm.css';
 
 const tipos = [
+  { value: '', label: 'Selecciona un tipo...' },
   { value: 'actividad', label: 'Actividad' },
   { value: 'comunicado', label: 'Comunicado' },
   { value: 'asamblea', label: 'Asamblea' },
@@ -12,19 +13,19 @@ const tipos = [
 const ThreadCreateForm = ({ onCreated }) => {
   const navigate = useNavigate();
   const [titulo, setTitulo] = useState('');
-  const [tipo, setTipo] = useState('actividad');
+  const [tipo, setTipo] = useState('');
   const [soloLectura, setSoloLectura] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+    setLoading(true);
     try {
       await createThread({ titulo, tipo, soloLectura });
       setTitulo('');
-      setTipo('actividad');
+      setTipo('');
       setSoloLectura(false);
       if (onCreated) onCreated();
       navigate('/forum');
@@ -46,8 +47,8 @@ const ThreadCreateForm = ({ onCreated }) => {
         <textarea
           value={titulo}
           onChange={e => setTitulo(e.target.value)}
-          required
           className="form-input"
+          required
           rows={3}
           style={{ resize: 'vertical', minHeight: 48, maxHeight: 180 }}
         />
@@ -59,6 +60,7 @@ const ThreadCreateForm = ({ onCreated }) => {
           value={tipo}
           onChange={e => setTipo(e.target.value)}
           className="form-input"
+          required
         >
           {tipos.map(t => (
             <option key={t.value} value={t.value}>{t.label}</option>
@@ -77,7 +79,6 @@ const ThreadCreateForm = ({ onCreated }) => {
           </label>
         </div>
       )}
-      {error && <div className="form-error">{error}</div>}
       <button
         type="submit"
         disabled={loading}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getUsers } from '../services/user.service';
-import { useNavigate } from 'react-router-dom';
+import { getUsers, getPublicUsers } from '../services/user.service';
+import { useNavigate, Link } from 'react-router-dom';
 
 const tipos = [
   { value: '', label: 'Todos' },
@@ -15,26 +15,30 @@ const ThreadList = ({ threads }) => {
   const [usuarios, setUsuarios] = useState([]);
   const navigate = useNavigate();
   const usuario = JSON.parse(sessionStorage.getItem('usuario'));
+  const userId = sessionStorage.getItem('id');
   const esAdmin = usuario?.rol === 'administrador';
-  const userRut = usuario?.rut;
 
-  // Devuelve el rut del usuario creador del hilo
-  const getRutCreador = (id) => {
-    const user = usuarios.find(u => u.id === id);
-    return user ? user.rut : undefined;
+  const getIdCreador = (id) => {
+    const user = usuarios.find(u => String(u.id) === String(id));
+    return user ? user.id : undefined;
   };
 
   useEffect(() => {
     const fetchUsuarios = async () => {
-      const data = await getUsers();
+      let data;
+      if (esAdmin) {
+        data = await getUsers();
+      } else {
+        data = await getPublicUsers();
+      }
       setUsuarios(data || []);
     };
     fetchUsuarios();
-  }, []);
+  }, [esAdmin]);
 
   const getNombreUsuario = (id) => {
-    const user = usuarios.find(u => u.id === id);
-    return user ? user.username || user.nombre || user.email : id;
+    const user = usuarios.find(u => String(u.id) === String(id));
+    return user ? user.nombre || user.username || user.email : id;
   };
 
   const threadsFiltrados = filtro
@@ -58,17 +62,21 @@ const ThreadList = ({ threads }) => {
       </div>
       <div className="thread-list">
         {threadsFiltrados.length === 0 ? (
-          <div style={{ margin: '1.5rem', color: '#888' }}>No hay hilos para este filtro.</div>
+          <div style={{ margin: '3rem auto', color: '#888', textAlign: 'center', maxWidth: 400 }}>
+            No se encontraron hilos.
+          </div>
         ) : (
           threadsFiltrados.map(thread => (
             <div key={thread.id} className="thread-item">
               <div className="thread-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <h3>{thread.titulo}</h3>
-                  <span className={`thread-type thread-type-${thread.tipo}`}>{thread.tipo}</span>
-                  {thread.soloLectura && <span className="thread-readonly">Solo lectura</span>}
+                  <Link to={`/threads/${thread.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h3>{thread.titulo}</h3>
+                    <span className={`thread-type thread-type-${thread.tipo}`}>{thread.tipo}</span>
+                    {thread.soloLectura && <span className="thread-readonly">Solo lectura</span>}
+                  </Link>
                 </div>
-                {(esAdmin || String(getRutCreador(thread.creadoPor)) === String(userRut)) && (
+                {(esAdmin || String(thread.creadoPor) === String(userId)) && (
                   <button
                     className="btn-edit-thread"
                     style={{ marginLeft: 16, padding: '0.3em 1em', borderRadius: 7, border: '1.5px solid #2563eb', background: '#f1f5f9', color: '#2563eb', fontWeight: 600, cursor: 'pointer', fontSize: 15 }}
@@ -80,14 +88,12 @@ const ThreadList = ({ threads }) => {
               </div>
 
               <div className="thread-meta">
-                {esAdmin && (
-                  <span>Creado por: {(() => {
-                    const user = usuarios.find(u => String(u.id) === String(thread.creadoPor) || String(u.rut) === String(thread.creadoPor));
-                    if (!user) return thread.creadoPor;
-                    return user.nombre || user.username || user.email || user.rut || thread.creadoPor;
-                  })()}</span>
+                <span>Creado por: {getNombreUsuario(thread.creadoPor)}</span>
+                {thread.updatedAt && thread.updatedAt !== thread.createdAt ? (
+                  <span>Editado hace {getTimeAgo(thread.updatedAt)}</span>
+                ) : (
+                  <span>{getTimeAgo(thread.createdAt)}</span>
                 )}
-                <span>{getTimeAgo(thread.createdAt)}</span>
               </div>
             </div>
           ))

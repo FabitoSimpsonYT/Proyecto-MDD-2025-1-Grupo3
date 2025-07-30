@@ -1,3 +1,12 @@
+// Obtener información pública (limitada) de los usuarios
+export async function getPublicUsers() {
+    try {
+        const response = await axios.get('/users/public'); // Ruta sugerida en el backend
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener usuarios públicos:", error);
+    }
+}
 import axios from '@services/root.service.js';
 
 export async function getUsers() {
