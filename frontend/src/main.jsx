@@ -94,14 +94,16 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-
         path: "/historial-pagos",
         element: (
           <ProtectedRoute>
             <HistorialPagosUsuarioPage />
-
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/soliEspacios",
-        element: <SoliEspacios/>,
+        element: <SoliEspacios />,
       },
       {
         path: "/soliEspacios/:idSolicitud",
@@ -112,30 +114,30 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <SoliEspaciosRes />
-
           </ProtectedRoute>
         ),
       },
       {
-
         path: "/solicitar-pago",
         element: (
           <ProtectedRoute>
             <SolicitarPagoPage />
-
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/soliEspaciosRes/:idSolicitud",
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <SoliDetalleAdmin />
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: "/espaciosComunes",
         element: (
           <ProtectedRoute allowedRoles={["administrador"]}>
             <EspaciosComunes />
-
           </ProtectedRoute>
         ),
       },

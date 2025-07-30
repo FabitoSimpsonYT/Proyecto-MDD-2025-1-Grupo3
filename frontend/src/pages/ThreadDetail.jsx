@@ -33,7 +33,7 @@ const ThreadDetail = () => {
   if (!thread) return null;
 
   return (
-    <div className="thread-detail-page" style={{ maxWidth: 600, margin: '14rem auto 2rem auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 16px #0001', padding: '2rem' }}>
+    <div className="thread-detail-page" style={{ maxWidth: 600, margin: '3rem auto 2rem auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 16px #0001', padding: '2rem' }}>
       <button
         type="button"
         className="btn-back-thread"

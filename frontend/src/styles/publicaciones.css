@@ -1,7 +1,7 @@
 .publicaciones-container {
   max-height: 90vh; /* en vez de 70vh */
   overflow-y: scroll;
-  margin-top: 12rem;
+  margin-top: 2.5rem;
   padding-right: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   padding: 1rem;
