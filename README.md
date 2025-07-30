@@ -34,8 +34,8 @@ Antes de comenzar, asegúrate de tener instalado en tu sistema:
 
 ### 1. Clona el repositorio
 ```bash
-git clone https://github.com/HunterUrisus/Backend-Plantilla-MDD-2025-1
-cd Backend-Plantilla-MDD-2025-1/
+git clone https://https://github.com/FabitoSimpsonYT/Proyecto-MDD-2025-1-Grupo3/
+cd Proyecto-MDD-2025-1-Grupo3/
 ```
 
 ### 2. Accede a la carpeta backend e instala las dependencias
