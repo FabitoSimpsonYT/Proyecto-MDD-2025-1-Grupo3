@@ -1,0 +1,68 @@
+/* Estilos para la página de Pagos */
+.pagos-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.pagos-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.pagos-form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+.pagos-form select,
+.pagos-form input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.pagos-form button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.pagos-form button:hover {
+  background: #0056b3;
+}
+.pagos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pagos-table th, .pagos-table td {
+  border: 1px solid #eee;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+.pagos-table th {
+  background: #f7f7f7;
+}
+.pagos-table tr:nth-child(even) {
+  background: #fafbfc;
+}
+.pagos-table button {
+  margin: 0 0.25rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: #28a745;
+  color: #fff;
+  transition: background 0.2s;
+}
+.pagos-table button:hover {
+  background: #218838;
+}

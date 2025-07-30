@@ -32,7 +32,7 @@ const ThreadEditForm = () => {
         } else {
           setError('Hilo no encontrado');
         }
-      } catch (err) {
+      } catch {
         setError('Error al cargar el hilo');
       }
     };

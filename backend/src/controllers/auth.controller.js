@@ -48,6 +48,21 @@ export async function register(req, res) {
     });
     await userRepository.save(newUser);
 
+    // Crear automáticamente una cuenta asociada al usuario
+    try {
+      const cuentaRepository = AppDataSource.getRepository((await import("../entity/cuenta.entity.js")).default);
+      const nuevaCuenta = cuentaRepository.create({
+        nombre: username,
+        rut: rut,
+        saldo: 0
+      });
+      await cuentaRepository.save(nuevaCuenta);
+    } catch (cuentaError) {
+      console.error("Error al crear la cuenta automáticamente:", cuentaError);
+      // Si falla la creación de la cuenta, se puede decidir si eliminar el usuario o solo avisar
+      // return res.status(500).json({ message: "Usuario creado pero error al crear la cuenta" });
+    }
+
     // Excluir la contraseña del objeto de respuesta
     const { contraseña, ...dataUser } = newUser;
 

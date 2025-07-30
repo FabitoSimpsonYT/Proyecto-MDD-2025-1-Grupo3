@@ -3,6 +3,8 @@
 import User from "../entity/user.entity.js";
 import { AppDataSource } from "../config/configDb.js";
 import { encryptPassword } from "../helpers/bcrypt.helper.js";
+import { createPagosDemo } from "./initPagos.js";
+import { createCuentasDemo } from "./initCuentas.js";
 
 // Función para crear usuarios por defecto
 // Se aplica sólo al iniciar la base de datos
@@ -37,6 +39,10 @@ export async function createUsers() {
             ));
             console.log(`Usuario '${user.username}' creado exitosamente.`);
         }
+        // Precargar cuentas demo
+        await createCuentasDemo();
+        // Precargar pagos demo
+        await createPagosDemo();
     } catch (error) {
         console.error("Error al crear usuarios: ", error);
         process.exit(1);

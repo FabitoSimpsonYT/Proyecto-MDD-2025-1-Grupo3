@@ -27,8 +27,14 @@ export async function loginService(datauser) {
 
         const { status, data } = response;
         if (status === 200) {
-            const { username, email, rut, rol } = jwtDecode(data.accessToken);
-            const userData = { username, email, rut, rol };
+            const decoded = jwtDecode(data.accessToken);
+            // Forzar que siempre se guarde como 'rol' (aunque venga como 'role')
+            const userData = {
+                username: decoded.username,
+                email: decoded.email,
+                rut: decoded.rut,
+                rol: decoded.rol || decoded.role // usa 'rol' si existe, si no usa 'role'
+            };
             sessionStorage.setItem('usuario', JSON.stringify(userData));
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
             cookies.set('jwt-auth', data.accessToken, { path: '/' });

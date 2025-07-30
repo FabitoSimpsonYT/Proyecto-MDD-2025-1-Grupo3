@@ -1,6 +1,8 @@
+
 import { useEffect, useState } from "react";
 import { useGetProfile } from "@hooks/profile/useGetProfile.jsx";
 import ProfileCard from "@components/ProfileCard.jsx";
+// import HistorialPagosUsuario from "../components/HistorialPagosUsuario";
 import "@styles/profile.css";
 
 const Profile = () => {
@@ -21,6 +23,7 @@ const Profile = () => {
       {profileData ? (
         <div className="profile-container">
           <ProfileCard user={profileData} />
+          {/* <HistorialPagosUsuario /> */}
         </div>
       ) : (
         <p>Cargando perfil...</p>

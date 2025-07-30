@@ -8,10 +8,14 @@ import Register from '@pages/Register'
 import Error404 from '@pages/Error404'
 import Users from '@pages/Users'
 import Profile from '@pages/Profile'
+import HistorialPagosUsuarioPage from './pages/HistorialPagosUsuarioPage';
+import SolicitarPagoPage from './pages/SolicitarPagoPage';
 import ProtectedRoute from '@components/ProtectedRoute'
 import Forum from "./pages/Forum";
 import ThreadCreatePage from "./pages/ThreadCreatePage";
 import ThreadEditPage from "./pages/ThreadEditPage";
+import Cuentas from "./pages/Cuentas.jsx";
+import Pagos from "./pages/Pagos.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,9 +48,41 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/cuentas",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <Cuentas />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/pagos",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <Pagos />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/profile",
         element: <Profile />,
-      }
+      },
+      {
+        path: "/historial-pagos",
+        element: (
+          <ProtectedRoute>
+            <HistorialPagosUsuarioPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/solicitar-pago",
+        element: (
+          <ProtectedRoute>
+            <SolicitarPagoPage />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {

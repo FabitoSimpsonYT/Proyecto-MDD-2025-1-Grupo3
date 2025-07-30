@@ -36,9 +36,33 @@ const Sidebar = () => {
               </NavLink>
             </li>
           )}
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/cuentas">
+                <span className="icon">💳</span> Cuentas
+              </NavLink>
+            </li>
+          )}
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/pagos">
+                <span className="icon">💵</span> Pagos
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink to="/profile">
               <CgProfile className="icon"/> Perfil
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/historial-pagos">
+              <span className="icon">📄</span> Mi Historial de Pagos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/solicitar-pago">
+              <span className="icon">💸</span> Solicitar Pago
             </NavLink>
           </li>
         <li>
