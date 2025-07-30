@@ -89,7 +89,7 @@ npm install
 ### 4. Inicia la aplicación frontend
 
 ```bash
-npm start
+npm run dev
 ```
 
 La aplicación se abrirá automáticamente en tu navegador, usualmente en `http://localhost:5173` (o el puerto que indique tu terminal).
