@@ -1,12 +1,10 @@
-/* Scroll solo en la tabla de visitantes, header siempre visible */
+/* Scroll */
 .visitantes-table-scroll {
   max-height: 400px;
   overflow-y: auto;
   width: 100%;
   margin-top: 20px;
 }
-/* Forzar espacio para la barra de desplazamiento vertical en toda la página */
-
 
 
 
