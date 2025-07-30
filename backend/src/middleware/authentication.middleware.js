@@ -18,6 +18,7 @@ export function authenticateJwt(req, res, next) {
     // Verificar y decodificar el token usando la clave secreta
     const decoded = jwt.verify(token, SESSION_SECRET);
     req.user = decoded;
+   console.log('Usuario autenticado:', req.user); // <-- Log de depuración
     next();
     
   } catch (error) {

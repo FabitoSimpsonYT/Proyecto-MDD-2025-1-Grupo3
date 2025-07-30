@@ -9,11 +9,10 @@ const router = Router ();
 router.use(authenticateJwt);
 
 router.get("/",isAdmin,getvisitantes);
-router.get("/:id",getvisitanteId);
+router.delete("/:id",isAdmin,deletevisitante)
+router.put("/:id",isAdmin,updatevisitante);
 
 router.post("/",createvisitante);
-
-router.put("/:id",isAdmin,updatevisitante);
-router.delete("/:id",isAdmin,deletevisitante)
+router.get("/:id",getvisitanteId);
  
 export default router ;

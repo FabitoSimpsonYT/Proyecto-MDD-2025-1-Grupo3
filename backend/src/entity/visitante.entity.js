@@ -24,9 +24,14 @@ export const visitanteEntity = new EntitySchema({
         email : {
             type: "varchar"
         },
-        createdAt :{
-            type :"timestamp",
-            default : () => "CURRENT_TIMESTAMP",
+        descripcion :{
+            type:"varchar",
+            nullable: true
+        },
+        createdAt: {
+          type: "timestamp",
+          default: () => "CURRENT_TIMESTAMP",      
+
         },
         updatedAt: {
             type :"timestamp",
@@ -37,10 +42,10 @@ export const visitanteEntity = new EntitySchema({
     },
     relations: {
     residente: {
-      type: "many-to-one",
-      target: "User", // nombre definido en UserEntity
-      joinColumn: true,
-      onDelete: "CASCADE",
+    type: "many-to-one",
+    target: "User", // nombre definido en UserEntity
+    joinColumn: true,
+    onDelete: "CASCADE",
     },
   },
 

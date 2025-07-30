@@ -23,7 +23,6 @@ export async function isAdmin(req, res, next) {
           message:
             "Error al acceder al recurso. Se requiere un rol de administrador para realizar esta acción.",
         });
-
     // Si el rol es administrador, continuar
     next();
   } catch (error) {
