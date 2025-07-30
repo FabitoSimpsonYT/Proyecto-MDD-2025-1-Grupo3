@@ -30,15 +30,9 @@ export async function loginService(datauser) {
             const decoded = jwtDecode(data.accessToken);
 
           
-            const userData = {
-                username: decoded.username,
-                email: decoded.email,
-                rut: decoded.rut,
-                rol: decoded.rol || decoded.role 
-            };
 
-            const { id, username, email, rut, rol } = decoded;
-            const userData = { id, username, email, rut, rol };
+            const { id, username, email, rut, rol, role } = decoded;
+            const userData = { id, username, email, rut, rol, role };
 
             sessionStorage.setItem('usuario', JSON.stringify(userData));
             sessionStorage.setItem('id', id);
