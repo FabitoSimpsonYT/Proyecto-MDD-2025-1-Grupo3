@@ -30,7 +30,8 @@ const EditarPublicacion = () => {
   }, [id]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -63,6 +64,7 @@ const EditarPublicacion = () => {
         onChange={handleChange}
         required
       />
+
       <textarea
         name="contenido"
         placeholder="Contenido"
@@ -70,14 +72,16 @@ const EditarPublicacion = () => {
         onChange={handleChange}
         required
       />
-      <input
-        type="text"
+      <select
         name="categoria"
-        placeholder="Categoría"
         value={form.categoria}
         onChange={handleChange}
         required
-      />
+      >
+        <option value="">-- Selecciona una categoría --</option>
+        <option value="reclamo">Reclamo</option>
+        <option value="sugerencia">Sugerencia</option>
+      </select>
 
       <button type="submit">Actualizar publicación</button>
     </form>
@@ -85,3 +89,4 @@ const EditarPublicacion = () => {
 };
 
 export default EditarPublicacion;
+
