@@ -120,7 +120,7 @@ const Comments = ({ threadId, soloLectura }) => {
               <li key={comment.id} style={{ marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <b>{getUsername(comment.creadoPor)}</b>:
-                  {(esAdmin || Number(comment.creadoPor) === Number(usuarioId)) && editId !== comment.id && (
+                  {(esAdmin || (String(comment.creadoPor) === String(usuarioId))) && editId !== comment.id && (
                     <>
                       <button
                         onClick={() => handleEdit(comment)}
