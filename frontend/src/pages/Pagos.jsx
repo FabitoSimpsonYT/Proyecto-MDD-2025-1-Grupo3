@@ -103,7 +103,7 @@ export default function Pagos() {
               <td>{p.estado}</td>
               <td>{p.observacion || ''}</td>
               <td>
-                {(user?.rol === 'admin' || user?.rol === 'administrador') && p.estado === 'pendiente' && (
+                {(user?.role === 'admin' || user?.role === 'administrador') && p.estado === 'pendiente' && (
                   <>
                     <button style={{background:'#27ae60',color:'#fff',border:'none',padding:'4px 10px',borderRadius:'4px',cursor:'pointer',marginRight:'4px'}} onClick={() => openModal(p.id, 'confirmar')}>Confirmar</button>
                     <button style={{background:'#e74c3c',color:'#fff',border:'none',padding:'4px 10px',borderRadius:'4px',cursor:'pointer'}} onClick={() => openModal(p.id, 'rechazar')}>Rechazar</button>

@@ -86,7 +86,7 @@ const aplicarFiltros = async () => {
     }
   };
 
-  const esAdmin = usuario?.rol === "administrador";
+  const esAdmin = usuario?.role === "administrador";
 
   return (
     <div className="publicaciones-container">

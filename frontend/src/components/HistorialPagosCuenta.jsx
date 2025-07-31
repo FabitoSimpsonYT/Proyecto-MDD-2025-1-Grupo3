@@ -7,7 +7,7 @@ export default function HistorialPagosCuenta({ cuentaId }) {
   const [pagos, setPagos] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-  const isAdmin = user?.rol === 'admin';
+  const isAdmin = user?.role === 'admin';
   const [accionError, setAccionError] = useState("");
 
   useEffect(() => {
