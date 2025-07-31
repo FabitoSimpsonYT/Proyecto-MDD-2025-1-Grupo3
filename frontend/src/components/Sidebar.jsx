@@ -90,12 +90,7 @@ const Sidebar = () => {
             )}
           </li>
           {/* --- End new items --- */}
-          <li>
-            <NavLink to="/profile">
-              <CgProfile className="icon"/> Perfil
-            </NavLink>
-          </li>
-
+          
           <li>
             <NavLink to="/historial-pagos">
               <span className="icon">📄</span> Mi Historial de Pagos
@@ -106,7 +101,11 @@ const Sidebar = () => {
               <span className="icon">💸</span> Solicitar Pago
             </NavLink>
           </li>
-
+          <li>
+            <NavLink to="/profile">
+              <CgProfile className="icon"/> Perfil
+            </NavLink>
+          </li>
           <li style={{ height: "70%" }}/>
           <li className="logout">
             <NavLink to="/login" onClick={logoutSubmit}>
