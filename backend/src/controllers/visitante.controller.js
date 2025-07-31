@@ -79,8 +79,6 @@ export async function createvisitante (req, res) {
 
         // Verificar si el usuario es administrador
         const userRole = (req.user.role || '').toLowerCase();
-        console.log("Rol del usuario:", userRole); // Para depuración
-        console.log("ID del usuario:", userId); // Para depuración adicional
 
         // Solo verificar el límite si el usuario NO es administrador
         if (userRole !== "administrador" && userRole !== "admin") {
@@ -91,7 +89,6 @@ export async function createvisitante (req, res) {
                     createdAt: Between(inicioDia, finDia),
                 },
             });
-            console.log("Visitantes registrados hoy:", visitantesHoy); // Para depuración
             
             // Aplicar límite solo a usuarios no administradores
             if (visitantesHoy >= 2) {
@@ -101,8 +98,6 @@ export async function createvisitante (req, res) {
                     visitantesHoy: visitantesHoy
                 });
             }
-        } else {
-            console.log("Usuario es administrador, sin límite de visitantes"); // Para depuración
         }
 
         const newvisitante = visitanteRepositorio.create({

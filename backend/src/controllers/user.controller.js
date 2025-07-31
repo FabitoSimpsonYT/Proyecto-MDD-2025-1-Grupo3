@@ -39,7 +39,6 @@ export async function changeUserRole(req, res) {
     const userId = parseInt(req.params.userId);
     const updateData = req.body;
     
-    console.log('Intentando cambiar rol:', { userId, newRole: updateData.role });
 
     if (isNaN(userId)) {
       return res.status(400).json({ message: "ID de usuario inválido" });
