@@ -11,6 +11,7 @@ import sugerenciaRoutes from "./sugerencias.routes.js";
 import visitanterouters from "./visitante.routes.js";
 import cuentasRoutes from "./cuentas.routes.js";
 import pagosRoutes from "./pagos.routes.js"; 
+import adminRoutes from "./admin.routes.js";
 
 const router = new Router();
 
@@ -25,5 +26,6 @@ router.use("/sugerencias", sugerenciaRoutes);
 router.use("/visitante",visitanterouters);
 router.use("/cuentas", cuentasRoutes);
 router.use("/pagos", pagosRoutes); 
+router.use("/admin", adminRoutes);
 
 export default router;
