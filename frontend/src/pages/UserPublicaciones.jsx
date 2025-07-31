@@ -1,8 +1,15 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "@styles/home.css";
 
 const UserPublicaciones = () => {
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const datosUsuario = JSON.parse(sessionStorage.getItem("usuario"));
+    setUsuario(datosUsuario || null);
+  }, []);
 
   return (
     <div className="home-banner">
@@ -21,12 +28,15 @@ const UserPublicaciones = () => {
       <div className="seccion-publicaciones">
         <h2 className="subtitulo">Publicaciones realizadas</h2>
         <div className="botones-doble">
-          <button
-            className="btn-principal"
-            onClick={() => navigate("/publicaciones")}
-          >
-            Ver publicaciones
-          </button>
+          {usuario?.role === "administrador" && (
+            <button
+              className="btn-principal"
+              onClick={() => navigate("/publicaciones")}
+            >
+              Ver publicaciones
+            </button>
+          )}
+
           <button
             className="btn-principal"
             onClick={() => navigate("/mis-publicaciones")}
@@ -40,4 +50,6 @@ const UserPublicaciones = () => {
 };
 
 export default UserPublicaciones;
+
+  
 

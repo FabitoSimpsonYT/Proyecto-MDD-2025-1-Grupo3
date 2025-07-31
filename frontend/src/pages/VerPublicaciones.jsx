@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   obtenerPublicaciones,
   actualizarEstado,
@@ -13,12 +14,20 @@ const VerPublicaciones = () => {
   const [usuario, setUsuario] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("");
+  const navigate = useNavigate(); // ✅ Inicializa navegación
 
   useEffect(() => {
     const datosUsuario = JSON.parse(sessionStorage.getItem("usuario"));
-    setUsuario(datosUsuario || null);
+    
+    // Si no hay usuario o no es admin, redirige
+    if (!datosUsuario || datosUsuario.role !== "administrador") {
+      navigate("/"); // Puedes redirigir a otra ruta si lo deseas
+      return;
+    }
+
+    setUsuario(datosUsuario);
     cargarPublicaciones();
-  }, []);
+  }, [navigate]);
 
   const cargarPublicaciones = async () => {
     try {
