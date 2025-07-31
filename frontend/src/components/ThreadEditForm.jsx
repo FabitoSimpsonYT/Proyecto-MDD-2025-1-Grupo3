@@ -58,7 +58,7 @@ const ThreadEditForm = () => {
   if (!thread) return <div>Cargando...</div>;
 
   const usuario = JSON.parse(sessionStorage.getItem('usuario'));
-  const esAdmin = usuario?.rol === 'administrador';
+  const esAdmin = usuario?.role === 'administrador';
 
   return (
     

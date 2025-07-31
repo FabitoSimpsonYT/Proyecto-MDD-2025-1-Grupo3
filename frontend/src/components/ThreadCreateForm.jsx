@@ -37,7 +37,7 @@ const ThreadCreateForm = ({ onCreated }) => {
   };
 
   const usuario = JSON.parse(sessionStorage.getItem('usuario'));
-  const esAdmin = usuario?.rol === 'administrador';
+  const esAdmin = usuario?.role === 'administrador';
 
   return (
     <form className="thread-create-form" onSubmit={handleSubmit}>

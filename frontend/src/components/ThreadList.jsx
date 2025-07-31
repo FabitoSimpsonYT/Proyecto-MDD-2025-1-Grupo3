@@ -16,7 +16,7 @@ const ThreadList = ({ threads }) => {
   const navigate = useNavigate();
   const usuario = JSON.parse(sessionStorage.getItem('usuario'));
   const userId = sessionStorage.getItem('id');
-  const esAdmin = usuario?.rol === 'administrador';
+  const esAdmin = usuario?.role === 'administrador';
 
   const getIdCreador = (id) => {
     const user = usuarios.find(u => String(u.id) === String(id));

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const user = JSON.parse(sessionStorage.getItem("usuario")) || "";
-  const userRole = user?.rol;
+  const userRole = user?.role;
 
   const logoutSubmit = () => {
     try {
@@ -60,6 +60,13 @@ const Sidebar = () => {
                 <span className="nav-text">Publicaciones</span>
               </NavLink>
           </li>
+          {userRole === "administrador" && (
+            <li>
+              <NavLink to="/asistencia-asamblea">
+                <span className="icon">📝</span> Asistencia Asamblea
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink to="/forum">
             <span className="icon">💬</span> Foro

@@ -12,16 +12,8 @@ export async function isAdmin(req, res, next) {
     });
     if (!userFound) return res.status(404).json("Usuario no encontrado");
 
-    // Verificar el rol del usuario
     const rolUser = userFound.role?.toLowerCase();
-    console.log('Verificando rol de usuario:', { 
-      email: userFound.email, 
-      role: userFound.role,
-      roleLowerCase: rolUser,
-      condicion: rolUser !== "administrador" && rolUser !== "admin"
-    });
 
-    // Si el rol no es administrador, devolver un error 403
     if (rolUser !== "administrador" && rolUser !== "admin")
       return res
         .status(403)

@@ -30,6 +30,7 @@ import SoliEspacios from '@pages/SoliEspacios';
 import SoliDetalle from '@pages/SoliDetalle';
 import SoliEspaciosRes from '@pages/SoliEspaciosRes';
 import SoliDetalleAdmin from '@pages/SoliDetalleAdmin';
+import AsistenciaAsamblea from '@pages/AsistenciaAsamblea';
 
 
 
@@ -146,6 +147,14 @@ const router = createBrowserRouter([
       {
         path: "/visitantes",
         element: <Visitantes/>, //////////// esta es mi ruta de visitantes
+      },
+      {
+        path: "/asistencia-asamblea",
+        element: (
+          <ProtectedRoute allowedRoles={["administrador"]}>
+            <AsistenciaAsamblea />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

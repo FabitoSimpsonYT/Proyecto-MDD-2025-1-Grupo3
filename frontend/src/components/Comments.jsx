@@ -3,7 +3,7 @@ import { getCommentsByThread, createComment, updateComment, deleteComment } from
 import '../styles/comments.css';
 const usuario = JSON.parse(sessionStorage.getItem('usuario'));
 const usuarioId = usuario?.id;
-const esAdmin = usuario?.rol === 'administrador' || usuario?.rol === 'admin';
+const esAdmin = usuario?.role === 'administrador' || usuario?.role === 'admin';
 import { getPublicUsers } from '../services/user.service';
 
 

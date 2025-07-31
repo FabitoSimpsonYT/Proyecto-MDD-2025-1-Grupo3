@@ -27,7 +27,7 @@ const Users = () => {
     const { value: newRole } = await Swal.fire({
       title: `Cambiar rol de ${user.username}`,
       html: `<div class="role-select">
-        <p>Rol actual: <strong>${user.role}</strong></p>
+        <p>Rol actual: <strong>{user.role}</strong></p>
         <p>Selecciona el nuevo rol:</p>
       </div>`,
       input: 'select',
