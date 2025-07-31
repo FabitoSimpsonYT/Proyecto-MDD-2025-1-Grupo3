@@ -46,7 +46,7 @@ const ThreadDetail = () => {
       <h2 style={{ marginBottom: 12 }}>{thread.titulo}</h2>
       <div style={{ marginBottom: 8 }}><b>Tipo:</b> {thread.tipo}</div>
       <div style={{ marginBottom: 8, color: '#888' }}>
-        Creado por: {thread.creadoPor} | {new Date(thread.createdAt).toLocaleString()}
+        Creado por : {thread.creadoPor} | {new Date(thread.createdAt).toLocaleString()}
       </div>
       {thread.tipo === 'asamblea' && (
         <>
