@@ -77,34 +77,37 @@ export async function createvisitante (req, res) {
         const finDia = new Date();
         finDia.setHours(23, 59, 59, 999);
 
-        // Verificar si el usuario es administrador
-        const userRole = (req.user.role || '').toLowerCase();
-        console.log("Rol del usuario:", userRole); // Para depuración
-        console.log("ID del usuario:", userId); // Para depuración adicional
+        // Verificar el rol del usuario desde la base de datos
+        const userFromDB = await userRepository.findOne({ where: { id: userId } });
+        
+        if (!userFromDB) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
 
-        // Solo verificar el límite si el usuario NO es administrador
-        if (userRole !== "administrador" && userRole !== "admin") {
-            // Contar los visitantes registrados hoy por este usuario
+        // Obtener y verificar el rol
+        const userRole = (userFromDB.role || '').toLowerCase();
+  
+        // Verificar si es administrador (acepta ambas variantes del rol)
+        const isAdmin = userRole === "administrador" || userRole === "admin";
+        if (!isAdmin) {
+            // Para usuarios normales, verificar el límite diario
             const visitantesHoy = await visitanteRepositorio.count({
                 where: {
                     residente: { id: userId },
                     createdAt: Between(inicioDia, finDia),
                 },
             });
-            console.log("Visitantes registrados hoy:", visitantesHoy); // Para depuración
+            console.log("Visitantes registrados hoy:", visitantesHoy);
             
-            // Aplicar límite solo a usuarios no administradores
             if (visitantesHoy >= 2) {
                 return res.status(403).json({ 
-                    message: "Solo se pueden registrar hasta 2 visitantes al día",
+                    message: "Solo se pueden registrar hasta 2 visitantes por día para usuarios normales.",
                     role: userRole,
-                    visitantesHoy: visitantesHoy
+                    visitantesHoy: visitantesHoy,
+                    limiteDiario: 2
                 });
             }
-        } else {
-            console.log("Usuario es administrador, sin límite de visitantes"); // Para depuración
-        }
-
+        } 
         const newvisitante = visitanteRepositorio.create({
             nombre,
             edad,

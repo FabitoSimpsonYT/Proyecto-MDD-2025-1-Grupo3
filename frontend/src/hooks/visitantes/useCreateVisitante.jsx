@@ -111,12 +111,30 @@ export const useCreateVisitante = (fetchVisitantes) => {
       
       // Manejar específicamente el error 403 (límite de visitantes)
       if (error.response && error.response.status === 403) {
-        Swal.fire({
-          icon: "warning",
-          title: "Límite alcanzado",
-          text: "Solo se pueden registrar hasta 2 visitantes por día. Si necesita registrar más visitantes, contacte a un administrador.",
-          confirmButtonColor: "#3085d6"
-        });
+        const errorData = error.response.data;
+        const isAdmin = errorData.role === 'admin' || errorData.role === 'administrador';
+        
+        if (isAdmin) {
+          // Este caso no debería ocurrir, pero por si acaso
+          Swal.fire({
+            icon: "error",
+            title: "Error inesperado",
+            text: "Error al registrar el visitante. Por favor, contacte al soporte técnico.",
+            confirmButtonColor: "#3085d6"
+          });
+        } else {
+          // Mensaje para usuarios normales
+          Swal.fire({
+            icon: "warning",
+            title: "Límite de visitantes alcanzado",
+            html: `
+              <p>Solo se pueden registrar hasta 2 visitantes por día para usuarios normales.</p>
+              <p>Visitantes registrados hoy: ${error.response.data.visitantesHoy}</p>
+              <p>Si necesita registrar más visitantes, por favor contacte a un administrador.</p>
+            `,
+            confirmButtonColor: "#3085d6"
+          });
+        }
       } else {
         // Para otros tipos de errores
         Swal.fire({

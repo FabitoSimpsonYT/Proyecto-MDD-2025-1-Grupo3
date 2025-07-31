@@ -39,12 +39,16 @@ export async function register(req, res) {
         .status(409)
         .json({ message: "Nombre de usuario ya registrado." });
 
+    // Verificar si es el primer usuario (será admin)
+    const userCount = await userRepository.count();
+    
     // Crear un nuevo usuario y guardar en la base de datos
     const newUser = userRepository.create({
       username,
       email,
       rut,
       password: await encryptPassword(password),
+      role: userCount === 0 ? "administrador" : "user" // Si es el primer usuario, será admin
     });
     await userRepository.save(newUser);
 
@@ -102,7 +106,7 @@ export async function login(req, res) {
       username: userFound.username,
       email: userFound.email,
       rut: userFound.rut,
-      rol: userFound.role,
+      role: userFound.role, // Cambiado de 'rol' a 'role' para mantener consistencia
     };
     const accessToken = jwt.sign(payload, SESSION_SECRET, { expiresIn: "1d" });
 
