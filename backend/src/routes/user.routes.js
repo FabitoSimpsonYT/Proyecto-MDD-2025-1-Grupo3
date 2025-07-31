@@ -1,6 +1,6 @@
 "use strict";
 import { Router } from "express";
-import { getUsers, getUserById, getProfile, updateUserById, deleteUserById, getPublicUsers } from "../controllers/user.controller.js";
+import { getUsers, getUserById, getProfile, updateUserById, deleteUserById, getPublicUsers, changeUserRole } from "../controllers/user.controller.js";
 import { authenticateJwt } from "../middleware/authentication.middleware.js";
 import { isAdmin } from "../middleware/authorization.middleware.js";
 
@@ -18,6 +18,9 @@ router.get("/profile", getProfile);
 
 // Middleware para verificar si el usuario es administrador
 router.use(isAdmin);
+
+// Ruta para cambiar el rol de un usuario
+router.put("/:userId/role", changeUserRole);
 
 // Rutas para obtener usuarios
 router.get("/", getUsers);

@@ -13,10 +13,16 @@ export async function isAdmin(req, res, next) {
     if (!userFound) return res.status(404).json("Usuario no encontrado");
 
     // Verificar el rol del usuario
-    const rolUser = userFound.role;
+    const rolUser = userFound.role?.toLowerCase();
+    console.log('Verificando rol de usuario:', { 
+      email: userFound.email, 
+      role: userFound.role,
+      roleLowerCase: rolUser,
+      condicion: rolUser !== "administrador" && rolUser !== "admin"
+    });
 
     // Si el rol no es administrador, devolver un error 403
-    if (rolUser !== "administrador")
+    if (rolUser !== "administrador" && rolUser !== "admin")
       return res
         .status(403)
         .json({
@@ -40,6 +46,7 @@ export async function populateUser(req, res, next) {
     if (user) {
       req.user.id = user.id;
       req.user.role = user.role;
+      console.log('Usuario autenticado:', { id: user.id, email: user.email, role: user.role }); // Para debug
     }
     
     next();

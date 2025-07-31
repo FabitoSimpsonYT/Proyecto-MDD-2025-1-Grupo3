@@ -114,7 +114,7 @@ export const useCreateVisitante = (fetchVisitantes) => {
         Swal.fire({
           icon: "warning",
           title: "Límite alcanzado",
-          text: "Solo se pueden registrar hasta 2 visitantes por día. Si necesita registrar más visitantes, contacte a un administrador.",
+          text: "Solo se pueden registrar hasta 2 visitantes por día. Por favor, intenta nuevamente mañana.",
           confirmButtonColor: "#3085d6"
         });
       } else {
