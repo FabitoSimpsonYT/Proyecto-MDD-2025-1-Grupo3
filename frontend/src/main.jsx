@@ -105,7 +105,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/soliEspacios",
-        element: <SoliEspacios/>,
+        element: <SoliEspacios />,
       },
       {
         path: "/soliEspacios/:idSolicitud",

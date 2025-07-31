@@ -33,6 +33,63 @@ export async function getPublicUsers(req, res) {
   }
 }
 
+export async function changeUserRole(req, res) {
+  try {
+    const userRepository = AppDataSource.getRepository(User);
+    const userId = parseInt(req.params.userId);
+    const updateData = req.body;
+    
+    console.log('Intentando cambiar rol:', { userId, newRole: updateData.role });
+
+    if (isNaN(userId)) {
+      return res.status(400).json({ message: "ID de usuario inválido" });
+    }
+
+    // Buscar el usuario a actualizar
+    const user = await userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+    
+    console.log('Usuario encontrado:', { id: user.id, currentRole: user.role });
+
+    // Validar el rol si se proporciona
+    if (updateData.role) {
+      const normalizedRole = updateData.role.toLowerCase();
+      if (normalizedRole !== 'usuario' && normalizedRole !== 'administrador' && normalizedRole !== 'admin') {
+        return res.status(400).json({ message: "Rol inválido. Los roles permitidos son: usuario, administrador" });
+      }
+      // Normalizar el rol a 'administrador' si es 'admin'
+      updateData.role = normalizedRole === 'admin' ? 'administrador' : normalizedRole;
+    }
+
+    // Mantener los datos existentes si no se proporcionan en el body
+    const updatedUser = {
+      ...user,
+      role: updateData.role || user.role,
+      username: updateData.username || user.username,
+      email: updateData.email || user.email,
+      // No permitimos actualizar el password o el rut por esta ruta por seguridad
+    };
+
+    // Actualizar el usuario
+    await userRepository.save(updatedUser);
+
+    res.status(200).json({ 
+      message: "Usuario actualizado correctamente",
+      data: {
+        id: updatedUser.id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        role: updatedUser.role
+      }
+    });
+  } catch (error) {
+    console.error("Error en user.controller.js -> changeUserRole(): ", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+}
+
 export async function getUserById(req, res) {
   try {
     // Obtener el repositorio de usuarios y buscar un usuario por ID

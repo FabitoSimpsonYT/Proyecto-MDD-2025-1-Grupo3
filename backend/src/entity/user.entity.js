@@ -32,7 +32,7 @@ export const UserEntity = new EntitySchema({
         },
         role: {
             type: String,
-            default: "user",
+            default: "usuario",
         },
         createdAt: {
             type: "timestamp",

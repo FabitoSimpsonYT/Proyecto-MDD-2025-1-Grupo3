@@ -3,7 +3,7 @@ import { getCommentsByThread, createComment, updateComment, deleteComment } from
 import '../styles/comments.css';
 const usuario = JSON.parse(sessionStorage.getItem('usuario'));
 const usuarioId = usuario?.id;
-const esAdmin = usuario?.rol === 'administrador';
+const esAdmin = usuario?.rol === 'administrador' || usuario?.rol === 'admin';
 import { getPublicUsers } from '../services/user.service';
 
 
@@ -120,7 +120,7 @@ const Comments = ({ threadId, soloLectura }) => {
               <li key={comment.id} style={{ marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <b>{getUsername(comment.creadoPor)}</b>:
-                  {(esAdmin || String(comment.creadoPor) === String(usuarioId)) && editId !== comment.id && (
+                  {(esAdmin || Number(comment.creadoPor) === Number(usuarioId)) && editId !== comment.id && (
                     <>
                       <button
                         onClick={() => handleEdit(comment)}

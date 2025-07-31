@@ -270,13 +270,17 @@ export async function updatePublicacion(req, res) {
     const publicacionRepo = AppDataSource.getRepository(Publicacion);
     const id = req.params.id;
 
-    
     const publicacion = await publicacionRepo.findOneBy({ id });
     if (!publicacion) {
       return res.status(404).json({ message: "Publicación no encontrada" });
     }
 
     const { titulo, contenido, categoria } = req.body;
+
+    const categoriasValidas = ["sugerencia", "reclamo"];
+    if (categoria !== undefined && !categoriasValidas.includes(categoria)) {
+      return res.status(400).json({ message: "Categoría inválida. Debe ser 'sugerencia' o 'reclamo'." });
+    }
 
     if (titulo !== undefined) publicacion.titulo = titulo;
     if (contenido !== undefined) publicacion.contenido = contenido;
