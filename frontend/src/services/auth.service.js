@@ -28,7 +28,6 @@ export async function loginService(datauser) {
         const { status, data } = response;
         if (status === 200) {
             const decoded = jwtDecode(data.accessToken);
-            console.log('Token decodificado:', decoded);
 
             const { id, username, email, rut, role } = decoded;
             const userData = { id, username, email, rut, role };
