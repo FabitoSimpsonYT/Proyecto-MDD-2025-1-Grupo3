@@ -1,11 +1,16 @@
-/* Estilos para la página de Cuentas */
 .cuentas-container {
   max-width: 800px;
-  margin: 2rem auto;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 2rem;
+  max-height: 100vh;
+  overflow: auto;
+  padding-bottom: 2rem;
+  margin-top: 200rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .cuentas-container h2 {
   text-align: center;
