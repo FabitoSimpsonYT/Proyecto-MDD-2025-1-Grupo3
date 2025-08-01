@@ -9,7 +9,7 @@ function FormularioPublicacion({ onSuccess = () => {} }) {
     categoria: "sugerencia",
   });
 
-  // Opciones con contenido relacionado
+  
   const OPCIONES_DETALLADAS = {
     sugerencia: {
       "Instalar cámaras de seguridad en los accesos principales.": "Mejora la vigilancia y reduce incidentes delictivos.",
