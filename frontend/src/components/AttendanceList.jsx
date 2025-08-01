@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getAttendanceByThread } from '../services/attendance.service';
 import { getUsers } from '../services/user.service';
 
 const AttendanceList = ({ threadId, tipo }) => {
-    //
     const [attendance, setAttendance] = useState(null);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
