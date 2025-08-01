@@ -11,7 +11,7 @@ export async function getPublicacion(req, res) {
   try {
     const publicacionRepo = AppDataSource.getRepository(Publicacion);
 
-    // Obtiene publicaciones con la relación autor cargada completa
+ 
     const publicacionesRaw = await publicacionRepo.find({
       relations: ["autor"],
     });
@@ -62,7 +62,7 @@ export async function getPublicacionPorId(req, res) {
       return res.status(404).json({ message: "Publicación no encontrada" });
     }
 
-    // Protegemos el acceso (si se desea)
+
     if (req.user?.username !== pub.autor.username) {
       return res.status(403).json({ message: "No tienes permiso para ver esta publicación." });
     }
@@ -95,8 +95,7 @@ export async function getPublicacionPorId(req, res) {
 
 export async function getMisPublicaciones(req, res) {
   try {
-    const username = req.user?.username; // Tomamos el username del usuario autenticado
-
+    const username = req.user?.username; 
     if (!username) {
       return res.status(400).json({ message: "Nombre de usuario no disponible." });
     }
@@ -255,7 +254,7 @@ export async function createPublicacion(req, res) {
         contenido: nuevaSugerencia.contenido,
         categoria: nuevaSugerencia.categoria,
         estado: nuevaSugerencia.estado,
-        autor: autor.nombre, // 👈 ahora sí tienes el nombre
+        autor: autor.nombre, 
       },
     });
   } catch (error) {
@@ -349,7 +348,7 @@ export async function deletePublicacion(req, res) {
       relations: ["autor"],
     });
 
-    // 🔍 Logs de depuración:
+
     console.log("🟡 ID recibido en params:", id);
     console.log("🔐 Usuario autenticado:", req.user);
     console.log("📘 Publicación encontrada:", publicacionEncontrada);
