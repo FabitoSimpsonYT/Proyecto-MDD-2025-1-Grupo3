@@ -30,40 +30,46 @@ const {visitantes, fetchVisitantes} = useGetVisitantes();
             </div>
             <div className="visitantes-table-scroll">
                 <table className="visitantes-table">
-                  <thead>
-                       <tr>
-                          <th>Nombre</th>
-                          <th>Edad</th>
-                          <th>Numero de casa</th>
-                          <th>Email</th>
-                          <th>Descripcion</th>
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
+                  {isAdmin && (
+                    <thead>
+                         <tr>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Numero de casa</th>
+                            <th>Email</th>
+                            <th>Descripcion</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                  )}
                   <tbody>
-                      {Array.isArray(visitantes) && visitantes.length > 0 ?(
-                       visitantes.map((visitante) =>( 
-                         <tr key={visitante.id}>
+                      {!isAdmin ? (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: "center" }}>
+                            No tienes permisos para ver esta información
+                          </td>
+                        </tr>
+                      ) : Array.isArray(visitantes) && visitantes.length > 0 ? (
+                        visitantes.map((visitante) => (
+                          <tr key={visitante.id}>
                             <td>{visitante.nombre}</td>
                             <td>{visitante.edad}</td>
                             <td>{visitante.numerocasa}</td>
                             <td>{visitante.email}</td>
                             <td>{visitante.descripcion}</td>
                             <td>
-                                {isAdmin &&( 
-                                <>  
-                                <button className="edit" onClick={() => handleEditVisitante(visitante.id, visitante)}>Editar</button>
-                               <button className="delete" onClick={() => handleDeleteVisitante(visitante.id)}>Eliminar</button>
-                                </>
-                                )}
+                              <button className="edit" onClick={() => handleEditVisitante(visitante.id, visitante)}>actualizar</button>
+                              <button className="delete" onClick={() => handleDeleteVisitante(visitante.id)}>Denegar acceso</button>
                             </td>
-                         </tr>
-                        ))
-                    )  :  (
-                          <tr>
-                           <td colSpan="6" style={{ textAlign: "center" }}>No hay visitantes disponibles</td>
                           </tr>
-                        )}
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: "center" }}>
+                            No hay visitantes disponibles
+                          </td>
+                        </tr>
+                      )}
                   </tbody>
                 </table>
             </div>

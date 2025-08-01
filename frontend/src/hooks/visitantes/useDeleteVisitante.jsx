@@ -7,7 +7,7 @@ async function confirmarDeleteVisitante() {
     text: "No podras deshacer esta accion",
     icon: "warning",
     howCancelButton: true,
-    confirmButtonText: "Si, eliminar",
+    confirmButtonText: "Si, Denegar",
     });
     return result.isConfirmed;
 }
@@ -22,8 +22,8 @@ export const useDeleteVisitante = (fetchVisitantes) => {
                const response = await DeleteVisitante(visitanteId);
                 if (response){
                   Swal.fire({
-                    title: "visitante eliminado",
-                    text: "el visitante a sido elimidado exitosamente",
+                    title: "Denegar visitante",
+                    text: "el visitante a sido Denegado exitosamente",
                     icon: "success",
                     confirmButtonText:"Aceptar"
                    });
@@ -32,7 +32,7 @@ export const useDeleteVisitante = (fetchVisitantes) => {
             } 
 
         } catch (error) {
-            console.error("error al eliminar al visitante",error);
+            console.error("error al Denegar al visitante",error);
             
         }
     }

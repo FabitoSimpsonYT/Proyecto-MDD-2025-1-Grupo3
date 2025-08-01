@@ -30,17 +30,15 @@ export async function getvisitantes(req, res) {
 // Obtener un visitante por ID
 export async function getvisitanteId(req, res) {
     try {
-         // Obtiene el repositorio para acceder a la entidad
         const visitanteRepositorio = AppDataSource.getRepository(visitanteEntity);
         const { id } = req.params;
         const useId = req.user.id;
-
-        //busca especificamente al visitante
         const visitante = await visitanteRepositorio.findOne({
             where: {
                 id,
-                user: {id: useId}
-            } 
+                residente: {id: useId}
+            },
+            relations: ["residente"]
         });
         
         if (!visitante){
@@ -60,15 +58,12 @@ export async function createvisitante (req, res) {
         const visitanteRepositorio = AppDataSource.getRepository(visitanteEntity);
         const userRepository = AppDataSource.getRepository(User);
         const { nombre, edad, numerocasa, email, descripcion} = req.body;
-     //validar los datos con joi
         const { error }  =  createValidation.validate(req.body);
-        // Validación con Joi
         const useId = req.user.id;
         if (error) {
          return res.status(400).json({ message: "Error de validación", error: error.details });
         }
          
-        // Busca al usuario que está creando el visitante 
         let userId = req.user.id;
 
         //calcular inicio y fin del dia actual 
@@ -77,7 +72,6 @@ export async function createvisitante (req, res) {
         const finDia = new Date();
         finDia.setHours(23, 59, 59, 999);
 
-        // Verificar el rol del usuario desde la base de datos
         const userFromDB = await userRepository.findOne({ where: { id: userId } });
         
         if (!userFromDB) {
@@ -86,11 +80,8 @@ export async function createvisitante (req, res) {
 
         // Obtener y verificar el rol
         const userRole = (userFromDB.role || '').toLowerCase();
-  
-        // Verificar si es administrador (acepta ambas variantes del rol)
         const isAdmin = userRole === "administrador" || userRole === "admin";
         if (!isAdmin) {
-            // Para usuarios normales, verificar el límite diario
             const visitantesHoy = await visitanteRepositorio.count({
                 where: {
                     residente: { id: userId },
@@ -147,10 +138,8 @@ export async function updatevisitante(req, res) {
             return res.status(404).json({message: "usuario no encontrado"});
         }
 
-        // Validación con Joi
        const { error } = updatevalidation.validate(req. body);
        if(error) return res.status(400).json({message: error.message});
-      // Actualizar solo los campos recibidos
         visitante.nombre = nombre || visitante.nombre;
         visitante.edad = edad || visitante.edad;
         visitante.numerocasa = numerocasa || visitante.numerocasa;
