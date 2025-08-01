@@ -8,22 +8,22 @@ import { createSoli, getAllSoli, getOneSoli, updateSoli, updateSoliRes, deleteSo
 const router = Router();
 
 router.use(authenticateJwt);
-router.use(populateUser); // <-- agrega esto después de authenticateJwt
+router.use(populateUser); 
 
-// Rutas de modificación primero para evitar conflictos de enrutamiento
+
 router.post("/", createSoli);
 
-router.put("/updateRes/:id", isAdmin, updateSoliRes); // <-- Mover antes de la genérica
+router.put("/updateRes/:id", isAdmin, updateSoliRes); 
 router.put("/:id", updateSoli);
 router.delete("/:id", deleteSoli);
 
-// Rutas de consulta
-router.get("/", isAdmin, getAllSoli);
-router.get("/admin/:id", isAdmin, getOneSoli); // Solo admin puede ver por id
 
-// Primero la ruta con dos parámetros
+router.get("/", isAdmin, getAllSoli);
+router.get("/admin/:id", isAdmin, getOneSoli); 
+
+
 router.get("/residente/:idSolicitud", getOneSoliUser);
-// Luego la ruta solo para el usuario autenticado
+
 router.get("/residente", getSoliResidente);
 
 
