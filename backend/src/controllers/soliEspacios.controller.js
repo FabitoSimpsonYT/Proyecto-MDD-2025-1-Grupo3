@@ -12,7 +12,7 @@ export async function getAllSoli(req, res) {
             relations: ["Solicitante", "espacio"]
         });
 
-        // Ocultar contraseña del solicitante
+        
         getallsoli.forEach(soli => {
             if (soli.Solicitante && soli.Solicitante.password) {
                 delete soli.Solicitante.password;
@@ -29,7 +29,6 @@ export async function getAllSoli(req, res) {
 export async function getSoliResidente(req, res){
     try {
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
-        console.log("req.user en getSoliResidente:", req.user); // depuración
         const idSolicitante = req.user.id;
 
         if (!idSolicitante) {
@@ -76,7 +75,7 @@ export async function getOneSoli(req, res){
 
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada" });
 
-        // Ocultar contraseña del solicitante
+        
         if (soliespacio.Solicitante && soliespacio.Solicitante.password) {
             delete soliespacio.Solicitante.password;
         }
@@ -90,7 +89,7 @@ export async function getOneSoli(req, res){
 
 export async function getOneSoliUser(req, res){
     try {
-        const idSolicitante = req.user.id; // <-- ahora se obtiene del token
+        const idSolicitante = req.user.id; 
         const idSolicitud = Number(req.params.idSolicitud);
         const soliEspaciosRepository = AppDataSource.getRepository(soliEspacio);
 
@@ -108,7 +107,7 @@ export async function getOneSoliUser(req, res){
 
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada o no pertenece al usuario." });
 
-        // Ocultar contraseña del solicitante
+       
         if (soliespacio.Solicitante && soliespacio.Solicitante.password) {
             delete soliespacio.Solicitante.password;
         }
@@ -191,7 +190,7 @@ export async function updateSoli(req, res) {
 
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada" });
 
-        // Solo permitir editar si el estado es "Sin Respuesta"
+       
         if (soliespacio.estado !== "Sin Respuesta") {
             return res.status(403).json({ message: "Solo se pueden editar solicitudes en estado 'Sin Respuesta'." });
         }
@@ -226,9 +225,9 @@ export async function updateSoliRes(req, res) {
 
         if (!soliespacio) return res.status(404).json({ message: "Espacio no encontrado." });
 
-        // Permitir responder cualquier solicitud, sin importar el estado actual
+       
 
-        // Validación de conflicto solo si se va a aprobar
+
         if (estado === "Aprobado") {
             const conflicto = await soliEspaciosRepository.createQueryBuilder("soli")
                 .where("soli.idEspacioSol = :idEspacioSol", { idEspacioSol: soliespacio.idEspacioSol })
@@ -245,7 +244,7 @@ export async function updateSoliRes(req, res) {
             }
         }
 
-        // Observaciones obligatorias si es rechazado
+      
         if (estado === "Rechazado" && (!observaciones || observaciones.trim() === "")) {
             return res.status(400).json({ message: "Debe ingresar observaciones cuando el estado es 'Rechazado'." });
         }
@@ -277,7 +276,7 @@ export async function deleteSoli(req, res) {
         const soliespacio = await soliEspaciosRepository.findOne({ where: { idSolicitud: id } });
         if (!soliespacio) return res.status(404).json({ message: "Solicitud no encontrada." });
 
-        // Solo permitir eliminar si el estado es "Sin Respuesta"
+        
         if (soliespacio.estado !== "Sin Respuesta") {
             return res.status(403).json({ message: "Solo se pueden eliminar solicitudes en estado 'Sin Respuesta'." });
         }
