@@ -29,7 +29,7 @@ export default function HistorialPagosCuenta({ cuentaId }) {
       } else if (accion === 'rechazar') {
         await rechazarPago(id, { observacion: 'Rechazado por admin' });
       }
-      // Refrescar pagos
+
       setPagos(await getHistorialPagosPorCuenta(cuentaId));
     } catch {
       setAccionError('Error al procesar la acción');
