@@ -9,7 +9,7 @@ export async function getvisitantes (req, res){
     try {
         const visitanteRepositorio = AppDataSource.getRepository(visitanteEntity);
         const listavisitantes = await visitanteRepositorio.find();
- //envia la lista al cliente
+
         res.status(200).json({message:"visitantes encontrados:",data : listavisitantes});
     } catch (error) {
        console.error("error al obtener visitantes ",error)
@@ -40,7 +40,7 @@ export async function createvisitante (req, res) {
         const visitanteRepositorio = AppDataSource.getRepository(visitanteEntity);
          const userRepository = AppDataSource.getRepository(User);
         const { nombre, edad, numerocasa, email, descripcion} = req.body;
-     //validar los datos con joi
+     
         const { error }  =  createValidation.validate(req.body);
         if (error)  return res.status(400).json({message:"error al crear al visitante:",error: error});
        
@@ -52,14 +52,14 @@ export async function createvisitante (req, res) {
             return res.status(404).json({message: "usuario no encontrado"});
         };
 
-        //validar limite de visitantes
+    
 
         const inicioDia = new Date(); 
         inicioDia.setHours(0,0,0,0);
 
         const finDia = new Date();
         finDia.setHours(23, 59, 999);
-    //contar los visitantes del registro hoy
+    
         const visitantesHoy = await visitanteRepositorio.count({
             where: {
                 residente: { id: user.id},
@@ -70,7 +70,7 @@ export async function createvisitante (req, res) {
         if(visitantesHoy >= 2){
             return res.status(403).json({message: "solo se pude registrar hasta 2 visitantes al dia "});
         }
-    //crear y guardar el visitante
+   
         const newvisitante = visitanteRepositorio.create({
          nombre,
          edad, 
