@@ -15,18 +15,18 @@ const router = Router();
 const upload = multer({ dest: "uploads/" });
 
 
-// Registrar pago (usuario autenticado)
+
 router.post("/", authenticateJwt, upload.single("voucher"), registrarPago);
 
 
 
-// Listar todos los pagos (solo admin)
+
 router.get("/", authenticateJwt, isAdmin, obtenerPagos);
 
-// Historial de pagos del usuario autenticado
+
 router.get("/historial", authenticateJwt, obtenerHistorialPagosUsuario);
 
-// Historial de pagos por cuenta (solo admin)
+
 router.get("/historial/:cuentaId", authenticateJwt, isAdmin, obtenerHistorialPagosPorCuenta);
 
 router.put("/:id/confirmar", authenticateJwt, isAdmin, confirmarPagoAdmin);
