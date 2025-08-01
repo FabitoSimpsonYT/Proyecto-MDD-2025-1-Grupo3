@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCommentsByThread, createComment, updateComment, deleteComment } from '../services/comment.service';
 import '../styles/comments.css';
+import { getPublicUsers } from '../services/user.service';
 const usuario = JSON.parse(sessionStorage.getItem('usuario'));
 const usuarioId = usuario?.id;
 const esAdmin = usuario?.role === 'administrador' || usuario?.role === 'admin';
-import { getPublicUsers } from '../services/user.service';
-
 
 const Comments = ({ threadId, soloLectura }) => {
   const [comments, setComments] = useState([]);
@@ -39,7 +38,7 @@ const Comments = ({ threadId, soloLectura }) => {
       const data = await getCommentsByThread(threadId);
       setComments(data);
     } catch (err) {
-      setError('No se pudieron cargar los comentarios');
+      setError('No hay comentarios en el hilo');
     } finally {
       setLoading(false);
     }

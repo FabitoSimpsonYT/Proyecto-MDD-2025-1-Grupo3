@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getUsers, getPublicUsers } from '../services/user.service';
 import { useNavigate, Link } from 'react-router-dom';
 

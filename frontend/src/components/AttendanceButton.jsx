@@ -37,7 +37,7 @@ const AttendanceButton = ({ threadId }) => {
         try {
             setLoading(true);
             await createAttendance(threadId, asistencia);
-            await loadAttendance(); // Siempre recarga la lista después de crear asistencia
+            await loadAttendance();
         } catch (error) {
             console.error('Error updating attendance:', error);
         } finally {
