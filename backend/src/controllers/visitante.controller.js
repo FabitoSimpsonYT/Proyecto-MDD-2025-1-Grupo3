@@ -21,7 +21,7 @@ export async function getvisitanteId(req, res) {
     try {
         const visitanteRepositorio = AppDataSource.getRepository(visitanteEntity);
         const { id } = req.params;
-        //busca especificamente al visitante
+       
         const visitante = await visitanteRepositorio.findOne({where: {id} });
         
         if (!visitante){
