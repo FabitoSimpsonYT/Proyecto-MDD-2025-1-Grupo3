@@ -40,7 +40,7 @@ export const modificarUsuario = async (req, res) => {
       console.error("Cuenta no encontrada para id:", id);
       return res.status(404).json({ error: "Cuenta no encontrada" });
     }
-    // Validar con el rut real de la cuenta (no uno fijo)
+
     const validacion = { nombre, saldo, rut: rut || cuenta.rut };
     const { error } = createCuentaValidation.validate(validacion);
     if (error) {
